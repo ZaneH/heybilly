@@ -2,6 +2,8 @@ import json
 from tenacity import retry, wait_fixed, stop_after_attempt, before_sleep_log
 import logging
 
+from src.utils.random import random_id
+
 logging.basicConfig()
 log = logging.getLogger("tenacity.retry")
 log.setLevel(logging.INFO)
@@ -34,6 +36,7 @@ class ActionNode:
     - is_blocking: Whether the node is blocking
     """
     create_queue = True  # Should a RabbitMQ queue be created for this node?
+    needs_uuid = False  # For nodes that need to be uniquely identified
 
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id
@@ -43,6 +46,7 @@ class ActionNode:
         self.data = {}
         self.is_blocking = False
         self.rabbit_client = None
+        self.node_uuid = random_id()
 
     async def execute(self, input_data=None):
         # Generic execution method, to be overridden by subclasses
@@ -90,6 +94,31 @@ class ActionNode:
     def _output_ids(self):
         # Helper method to get the IDs of the output nodes
         return [node.node_id for node in self.outputs]
+
+    def to_json(self, with_uuid=False):
+        # Convert the node to a JSON-serializable dictionary
+        object = {
+            'node_id': self.node_id,
+            'node_type': self.node_type,
+        }
+
+        inputs = [node.node_id for node in self.inputs]
+        outputs = [node.node_id for node in self.outputs]
+        data = self.data
+
+        if inputs:
+            object['inputs'] = inputs
+
+        if outputs:
+            object['outputs'] = outputs
+
+        if data:
+            object['data'] = data
+
+        if with_uuid and self.needs_uuid:
+            object['node_uuid'] = random_id()
+
+        return object
 
     def to_dict(self):
         # Convert all attributes to a dictionary

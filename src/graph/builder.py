@@ -113,9 +113,8 @@ ai_sample_content = None
 
 
 class GraphBuilder:
-    def __init__(self, rabbit_client=None):
+    def __init__(self):
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
-        self.rabbit_client = rabbit_client
 
     def build_graph(self, prompt: str) -> ActionNode:
         print("User prompt:", prompt)
@@ -140,16 +139,10 @@ class GraphBuilder:
 
         print(f'---\n{ai_content}\n---')
 
-        try:
-            return GraphBuilder._create_nodes_from_json(ai_content)
-        except:
-            print("Invalid graph response. Please try again.")
-            print("Graph:", ai_content)
-
-            return None
+        return ai_content
 
     @staticmethod
-    def _create_nodes_from_json(json_str):
+    def _create_nodes_from_json(json_str, graph_processor):
         try:
             data = json.loads(json_str)
             nodes = {}
@@ -168,7 +161,7 @@ class GraphBuilder:
                         extra_data[key] = value
 
                 setattr(nodes[node_id], "data", extra_data)
-                setattr(nodes[node_id], "rabbit_client", None)
+                setattr(nodes[node_id], "graph_processor", graph_processor)
 
             # Link nodes
             for node in nodes.values():

@@ -1,12 +1,17 @@
 from src.graph.action_node import ActionNode
 from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
+from src.voice.personality import Personality
 
 
 class OutputTTSNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
+    needs_uuid = True
 
     async def execute(self, input_data=None):
-        print("TTS input data:", input_data)
+        personality = Personality()
+        print(self.graph_processor.to_json(with_uuid=True))
+        # output = personality.suggest_edits(self.graph_processor.graph)
+        # print(output)
 
         text = getattr(self.data, 'text', None)
         if not text:

@@ -21,10 +21,10 @@ async def main():
 
     create_queues()
 
-    builder = GraphBuilder(rabbit_client)
+    builder = GraphBuilder()
     graph = builder.build_graph(
-        "Yo Billy, set the volume to 8 and post a meme to Discord.")
-    processor = GraphProcessor(graph)
+        "Hey Billy, turn the volume down and tell me a joke.")
+    processor = GraphProcessor(rabbit_client, graph)
     await processor.start()
 
     listener = Listen()
