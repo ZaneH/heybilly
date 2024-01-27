@@ -24,7 +24,7 @@ async def main():
 
     builder = GraphBuilder()
     graph = builder.build_graph(
-        "Hey Billy, turn the volume down and tell me a joke.")
+        "Hey Billy, how are you feeling?")
     processor = GraphProcessor(rabbit_client, graph)
     await processor.start()
 

@@ -57,7 +57,7 @@ class ActionNode:
 
         # Execute the current node and recursively process the next nodes
         output_data = await retry_handler(execute_wrapper)
-        setattr(self.data, "result", output_data)  # set data.result
+        self.data["result"] = output_data  # set data.result
 
         for next_node in self.outputs:
             await next_node.process(output_data)
