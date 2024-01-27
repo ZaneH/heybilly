@@ -9,9 +9,9 @@ class OutputTTSNode(ActionNode):
 
     def validate_inputs(self) -> bool:
         """
-        Validate that query was provided in the data field
+        Validate that text was provided in the data field
         """
-        if 'query' not in self.data:
+        if 'text' not in self.data:
             return False
 
         return True
