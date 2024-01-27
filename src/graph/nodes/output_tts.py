@@ -1,11 +1,20 @@
 from src.graph.action_node import ActionNode
+from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
 
 
 class OutputTTSNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
 
     async def execute(self):
-        print(f"{self.node_type} ran")
+        text = getattr(self.data, 'text', None)
+        if not text:
+            raise Exception("No text provided to speak, retry.")
+
+        tts_url = StreamlabsTTS(StreamlabsVoice.Justin).get_url(text)
+        setattr(self.data, 'tts_url', tts_url)
+
+        print("Speaking", text)
+        self.send_node_to_queue()
 
     def validate_inputs(self) -> bool:
         """

@@ -10,20 +10,20 @@ async def main():
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
 
-    rabbit_queue = RabbitClient()
+    rabbit_client = RabbitClient()
 
     # Create a queue for each node. Useful for your own integrations.
     def create_queues():
         for node_type in node_type_mapping:
             create_queue = node_type_mapping[node_type].create_queue
             if create_queue:
-                rabbit_queue.create_queue(node_type)
+                rabbit_client.create_queue(node_type)
 
     create_queues()
 
-    builder = GraphBuilder()
+    builder = GraphBuilder(rabbit_client)
     graph = builder.build_graph(
-        "Yo Billy, find out what the price of gold is and post it to the Discord.")
+        "Yo Billy, tell me what the price of gold is.")
     processor = GraphProcessor(graph)
     await processor.start()
 

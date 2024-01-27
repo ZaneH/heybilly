@@ -8,6 +8,7 @@ from src.graph.nodes.discord_post import DiscordPostNode
 from src.graph.nodes.done import DoneNode
 from src.graph.nodes.giphy_search import GiphySearchNode
 from src.graph.nodes.input_voice import InputVoiceNode
+from src.graph.nodes.output_tts import OutputTTSNode
 from src.graph.nodes.sound_effect import SoundEffectNode
 from src.graph.nodes.twitter_post import TwitterPostNode
 from src.graph.nodes.user_text_prompt import UserTextPromptNode
@@ -53,7 +54,7 @@ Node Types:
 - user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text.
 - twitter.post {text: String}: [Input: String; Outputs: Boolean] Posts to Twitter, outputs confirmation.
 - discord.post {text: String}: [Input: String; Outputs: Boolean] Posts to Discord, outputs confirmation.
-- wolfram.simple {query: String}: [Input: String; Outputs: String] Queries data, outputs result. Use for dynamic things like weather, finance, math, time, sports, etc.
+- wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
 - youtube.play {video_id: String}: [Input: String; Outputs: Boolean] Plays YouTube video, outputs confirmation.
 - sfx.play {video_id: String}: [Input: String; Outputs: Boolean] Plays sound effect for 5s, outputs confirmation.
@@ -87,6 +88,7 @@ node_type_mapping = {
     "youtube.play": YouTubePlayNode,
     "sfx.play": SoundEffectNode,
     "wolfram.simple": WolframSimpleNode,
+    "output.tts": OutputTTSNode,
 }
 
 ai_sample_content = None
@@ -115,8 +117,9 @@ ai_sample_content = None
 
 
 class GraphBuilder:
-    def __init__(self):
+    def __init__(self, rabbit_client=None):
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
+        self.rabbit_client = rabbit_client
 
     def build_graph(self, prompt: str) -> ActionNode:
         print("User prompt:", prompt)
@@ -169,6 +172,7 @@ class GraphBuilder:
                         extra_data[key] = value
 
                 setattr(nodes[node_id], "data", extra_data)
+                setattr(nodes[node_id], "rabbit_client", None)
 
             # Link nodes
             for node in nodes.values():

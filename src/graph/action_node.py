@@ -1,3 +1,6 @@
+import json
+
+
 class ActionNode:
     """
     Base class for all nodes that perform an action.
@@ -19,6 +22,7 @@ class ActionNode:
         self.outputs = outputs
         self.data = {}
         self.is_blocking = False
+        self.rabbit_client = None
 
     async def execute(self):
         # Generic execution method, to be overridden by subclasses
@@ -30,6 +34,14 @@ class ActionNode:
         for next_node in self.outputs:
             inputs_ok = next_node.validate_inputs()
             await next_node.process()
+
+    def send_node_to_queue(self):
+        if not self.rabbit_client:
+            print("RabbitMQ client not set. Cannot send node to queue.")
+            return
+
+        self.rabbit_client.send_node(
+            self.node_type, json.dumps(self.to_dict()))
 
     def validate_inputs(self) -> bool:
         # Generic validation method, to be overridden by subclasses

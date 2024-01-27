@@ -86,7 +86,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Twitter - [@zanehelton](https://twitter.com/zanehelton)
 
-Project Link - [https://github.com/ZaneH/HeyBilly-v2](https://github.com/ZaneH/HeyBilly)
+Project Link - [https://github.com/ZaneH/HeyBilly-v2](https://github.com/ZaneH/HeyBilly-v2)
 
 ---
 
