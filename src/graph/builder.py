@@ -12,8 +12,7 @@ from src.graph.nodes.output_tts import OutputTTSNode
 from src.graph.nodes.sound_effect import SoundEffectNode
 from src.graph.nodes.twitter_post import TwitterPostNode
 from src.graph.nodes.user_text_prompt import UserTextPromptNode
-from src.graph.nodes.volume_down import VolumeDownNode
-from src.graph.nodes.volume_up import VolumeUpNode
+from src.graph.nodes.volume_set import VolumeSetNode
 from src.graph.nodes.wolfram_simple import WolframSimpleNode
 from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
@@ -25,12 +24,12 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - Begin with 'input.voice' for initial voice commands.
 - Proceed with nodes relevant to the command's intent.
 - Use 'user_text_prompt' for essential text inputs.
-- Employ action nodes (e.g., 'twitter.post', 'discord.post', 'volume.up', 'youtube.search') for specific tasks.
-- Allow nodes to output to multiple successors.
-- Conclude each workflow with 'done'.
+- Employ only the provided node types.
+- Allow nodes to branch, one branch can end before reaching 'done'.
+- End each graph for the workflow with 'done'.
 
 - Searches should be excluded unless they are used later.
-- Do NOT use any kind of placeholder text. (like {{input}} or %var[0]%)
+- Do *NOT* use any placeholder text. (like {{input}} or %1%)
 
 Example output:
 ```
@@ -52,39 +51,37 @@ Example output:
 Node Types:
 - input.voice: [No input; Outputs: String] User input node. Spoken.
 - user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text.
-- twitter.post {text: String}: [Input: String; Outputs: Boolean] Posts to Twitter, outputs confirmation.
-- discord.post {text: String}: [Input: String; Outputs: Boolean] Posts to Discord, outputs confirmation.
+- twitter.post {text: String}: [Input: String] Posts to Twitter.
+- discord.post {text: String}: [Input: String] Posts to Discord.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
+- giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Queries Giphy, outputs GIF URL. Use full words to get back results.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
-- youtube.play {video_id: String}: [Input: String; Outputs: Boolean] Plays YouTube video, outputs confirmation.
-- sfx.play {video_id: String}: [Input: String; Outputs: Boolean] Plays sound effect for 5s, outputs confirmation.
-- output.tts {text: String}: [Input: String; Outputs: Boolean] Converts text to speech. Outputs confirmation.
-- volume.up: [No input; Outputs: Boolean] Increases volume, outputs confirmation.
-- volume.down: [No input; Outputs: Boolean] Decreases volume, outputs confirmation.
-- volume.set {value: Integer}: [Input: Integer (0-10); Outputs: Boolean] Sets volume, outputs confirmation.
-- done: [No input, No output] Marks workflow completion.
+- youtube.play {video_id: String}: [Input: String] Plays YouTube video.
+- sfx.play {video_id: String}: [Input: String] Plays sound effect for 5s.
+- output.tts {text: String}: [Input: String] Play text to speech using "text".
+- volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Possible values: +1, -1, or values 0 thru 10.
+- done: [Input: Any] Marks workflow completion.
 
 Workflow Examples:
 1. Tweet Creation: 'input.voice' -> 'user_text_prompt' -> 'twitter.post' -> 'done'.
-2. Volume & Discord Meme Post: 'input.voice' -> 'volume.up' & 'giphy.search' -> 'discord.post' -> 'done'.
+2. Volume & Discord Meme Post: 'input.voice' -> 'volume.set' & 'giphy.search' -> 'discord.post' -> 'done'.
 3. YouTube Video Query: 'input.voice' -> 'youtube.search' -> 'discord.post' -> 'done'.
 
-Ensure workflows logically flow from 'input.voice' to 'done' at most once."""
+Ensure workflows there is a path from 'input.voice' to 'done' only once in the graph."""
 
 node_type_mapping = {
     "input.voice": InputVoiceNode,
     "user_text_prompt": UserTextPromptNode,
     "twitter.post": TwitterPostNode,
     "discord.post": DiscordPostNode,
-    "giphy.search": GiphySearchNode,
-    "volume.up": VolumeUpNode,
-    "volume.down": VolumeDownNode,
-    "done": DoneNode,
+    "wolfram.simple": WolframSimpleNode,
     "youtube.search": YouTubeSearchNode,
     "youtube.play": YouTubePlayNode,
     "sfx.play": SoundEffectNode,
-    "wolfram.simple": WolframSimpleNode,
     "output.tts": OutputTTSNode,
+    "volume.set": VolumeSetNode,
+    "giphy.search": GiphySearchNode,
+    "done": DoneNode,
 }
 
 ai_sample_content = None

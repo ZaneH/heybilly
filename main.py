@@ -12,10 +12,11 @@ async def main():
 
     rabbit_client = RabbitClient()
 
-    # Create a queue for each node. Useful for your own integrations.
+    # Create a queue for the node if needed. Useful for your own integrations.
     def create_queues():
         for node_type in node_type_mapping:
             create_queue = node_type_mapping[node_type].create_queue
+
             if create_queue:
                 rabbit_client.create_queue(node_type)
 

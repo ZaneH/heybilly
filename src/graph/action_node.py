@@ -45,7 +45,6 @@ class ActionNode:
         self.outputs = outputs
         self.data = {}
         self.is_blocking = False
-        self.rabbit_client = None
         self.node_uuid = random_id()
 
     async def execute(self, input_data=None):
@@ -58,16 +57,19 @@ class ActionNode:
 
         # Execute the current node and recursively process the next nodes
         output_data = await retry_handler(execute_wrapper)
+        setattr(self.data, "result", output_data)  # set data.result
+
         for next_node in self.outputs:
             await next_node.process(output_data)
 
     def send_node_to_queue(self):
-        if not self.rabbit_client:
+        if not hasattr(self.graph_processor, "rabbit_client"):
             print("RabbitMQ client not set. Cannot send node to queue.")
             return
 
-        self.rabbit_client.send_node(
-            self.node_type, json.dumps(self.to_dict()))
+        rc = self.graph_processor.rabbit_client
+
+        rc.send_node(self.node_type, json.dumps(self.to_dict()))
 
     def validate_inputs(self) -> bool:
         # Generic validation method, to be overridden by subclasses
