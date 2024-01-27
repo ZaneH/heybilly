@@ -23,7 +23,7 @@ async def main():
 
     builder = GraphBuilder(rabbit_client)
     graph = builder.build_graph(
-        "Yo Billy, tell me what the price of gold is.")
+        "Yo Billy, set the volume to 8 and post a meme to Discord.")
     processor = GraphProcessor(graph)
     await processor.start()
 

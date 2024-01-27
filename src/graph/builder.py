@@ -69,11 +69,7 @@ Workflow Examples:
 2. Volume & Discord Meme Post: 'input.voice' -> 'volume.up' & 'giphy.search' -> 'discord.post' -> 'done'.
 3. YouTube Video Query: 'input.voice' -> 'youtube.search' -> 'discord.post' -> 'done'.
 
-Ensure workflows logically flow from 'input.voice' to 'done'.
-
-Create a graph for the following request:
-
-Hey Billy, post a random fact about cars to Discord."""
+Ensure workflows logically flow from 'input.voice' to 'done' at most once."""
 
 node_type_mapping = {
     "input.voice": InputVoiceNode,
