@@ -5,7 +5,7 @@ class YouTubePlayNode(ActionNode):
     create_queue = True
 
     async def execute(self, input_data=None):
-        print(f"{self.node_type} ran")
+        pass
 
         return True
 

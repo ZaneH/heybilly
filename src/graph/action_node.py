@@ -53,6 +53,7 @@ class ActionNode:
 
     async def process(self, input_data=None):
         async def execute_wrapper():
+            print(f"Executing {self.node_type} with input: {input_data}")
             return await self.execute(input_data)
 
         # Execute the current node and recursively process the next nodes

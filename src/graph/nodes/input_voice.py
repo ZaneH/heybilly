@@ -5,7 +5,7 @@ class InputVoiceNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
-        print(f"{self.node_type} ran")
+        pass
 
         return getattr(self.data, 'text', None)
 

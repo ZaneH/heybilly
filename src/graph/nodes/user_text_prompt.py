@@ -7,7 +7,7 @@ class UserTextPromptNode(ActionNode):
     is_blocking = True
 
     async def execute(self, input_data=None):
-        print(f"{self.node_type} ran")
+        pass
 
     def validate_inputs(self) -> bool:
         """

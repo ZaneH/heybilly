@@ -5,7 +5,7 @@ class GiphySearchNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
-        print(f"{self.node_type} ran")
+        pass
 
     def validate_inputs(self) -> bool:
         """
