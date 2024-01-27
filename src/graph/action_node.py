@@ -132,7 +132,8 @@ class ActionNode:
         node_dict.pop('graph_processor', None)
         node_dict.pop('rabbit_client', None)
 
-        # Replace output nodes with their IDs in the dictionary
-        node_dict['outputs'] = self._output_ids()
+        # Drop input/output nodes
+        node_dict.pop('inputs', None)
+        node_dict.pop('outputs', None)
 
         return node_dict
