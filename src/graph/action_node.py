@@ -44,16 +44,18 @@ class ActionNode:
         self.is_blocking = False
         self.rabbit_client = None
 
-    async def execute(self):
+    async def execute(self, input_data=None):
         # Generic execution method, to be overridden by subclasses
-        pass
+        return None
 
-    async def process(self):
+    async def process(self, input_data=None):
+        async def execute_wrapper():
+            return await self.execute(input_data)
+
         # Execute the current node and recursively process the next nodes
-        await retry_handler(self.execute)
+        output_data = await retry_handler(execute_wrapper)
         for next_node in self.outputs:
-            inputs_ok = next_node.validate_inputs()
-            await next_node.process()
+            await next_node.process(output_data)
 
     def send_node_to_queue(self):
         if not self.rabbit_client:

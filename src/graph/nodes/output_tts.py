@@ -5,7 +5,9 @@ from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
 class OutputTTSNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
 
-    async def execute(self):
+    async def execute(self, input_data=None):
+        print("TTS input data:", input_data)
+
         text = getattr(self.data, 'text', None)
         if not text:
             raise Exception("No text provided to speak, retry.")

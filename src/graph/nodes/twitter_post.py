@@ -4,7 +4,7 @@ from src.graph.action_node import ActionNode
 class TwitterPostNode(ActionNode):
     create_queue = False
 
-    async def execute(self):
+    async def execute(self, input_data=None):
         print(f"{self.node_type} ran")
 
     def validate_inputs(self) -> bool:
