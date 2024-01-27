@@ -50,7 +50,7 @@ Example output:
 
 Node Types:
 - input.voice: [No input; Outputs: String] User input node. Spoken.
-- user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text.
+- user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text. Exclusively for making posts.
 - twitter.post {text: String}: [Input: String] Posts to Twitter.
 - discord.post {text: String}: [Input: String] Posts to Discord.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
