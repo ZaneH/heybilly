@@ -10,6 +10,7 @@ class OutputTTSNode(ActionNode):
     async def execute(self, input_data=None):
         personality = Personality()
         print(self.graph_processor.to_json(with_uuid=True))
+        # print(self.graph_processor.pretty_print())
         # output = personality.suggest_edits(self.graph_processor.graph)
         # print(output)
 

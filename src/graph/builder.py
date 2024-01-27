@@ -30,6 +30,7 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 
 - Searches should be excluded unless they are used later.
 - Do *NOT* use any placeholder text. (like {{input}} or %1%)
+- Try to create simple graphs instead of long and complex ones.
 
 Example output:
 ```

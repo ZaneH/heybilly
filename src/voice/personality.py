@@ -3,6 +3,8 @@ import os
 from openai import OpenAI
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+PERSONALITY_MODEL_ID = os.environ.get('PERSONALITY_MODEL_ID')
+
 SYSTEM_PROMPT = """Your job is to be a home assistant. You are trained
 on how to respond to requests from users. You will always respond with a
 JSON dict.
@@ -43,7 +45,7 @@ class Personality:
                     "role": "user",
                     "content": prompt,
                 },
-            ]
+            ], model=PERSONALITY_MODEL_ID
         )
 
         return res.choices[0].message.content
