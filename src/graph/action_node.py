@@ -1,4 +1,24 @@
 import json
+from tenacity import retry, wait_fixed, stop_after_attempt, before_sleep_log
+import logging
+
+logging.basicConfig()
+log = logging.getLogger("tenacity.retry")
+log.setLevel(logging.INFO)
+
+retry_strategy = retry(
+    wait=wait_fixed(2),  # Wait 2 seconds between retries
+    stop=stop_after_attempt(3),  # Stop after 3 attempts
+    before_sleep=before_sleep_log(log, logging.INFO)  # Log before retrying
+)
+
+
+async def retry_handler(func, *args, **kwargs):
+    """
+    Retry handler that applies the retry strategy to the provided function.
+    """
+    retrying_func = retry_strategy(func)
+    return await retrying_func(*args, **kwargs)
 
 
 class ActionNode:
@@ -30,7 +50,7 @@ class ActionNode:
 
     async def process(self):
         # Execute the current node and recursively process the next nodes
-        await self.execute()
+        await retry_handler(self.execute)
         for next_node in self.outputs:
             inputs_ok = next_node.validate_inputs()
             await next_node.process()

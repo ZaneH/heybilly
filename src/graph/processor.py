@@ -3,10 +3,14 @@ class GraphProcessor:
         self.graph = graph
         self.current_node = "1"
 
-        # pretty print the graph
+    def pretty_print(self):
         print("Graph:")
         for node in self.graph.values():
             print("    ", node)
 
     async def start(self):
-        await self.graph[self.current_node].process()
+        try:
+            await self.graph[self.current_node].process()
+        except Exception as e:
+            print("Error processing graph:", e)
+            print(self.pretty_print())
