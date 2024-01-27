@@ -18,6 +18,7 @@ from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+BUILDER_MODEL_ID = os.environ.get("BUILDER_MODEL_ID")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 
 - Begin with 'input.voice' for initial voice commands.
@@ -131,7 +132,7 @@ class GraphBuilder:
                         "content": prompt,
                     },
                 ],
-                model="ft:gpt-3.5-turbo-1106:startup::8lUQ5Z4W"
+                model=BUILDER_MODEL_ID
             )
 
             ai_content = res.choices[0].message.content
