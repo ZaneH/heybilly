@@ -4,6 +4,12 @@ import os
 from openai import OpenAI
 
 from src.graph.action_node import ActionNode
+from src.graph.nodes.discord_post import DiscordPostNode
+from src.graph.nodes.giphy_search import GiphySearchNode
+from src.graph.nodes.input_voice import InputVoiceNode
+from src.graph.nodes.twitter_post import TwitterPostNode
+from src.graph.nodes.user_text_prompt import UserTextPromptNode
+from src.graph.nodes.volume_up import VolumeUpNode
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
@@ -54,12 +60,22 @@ Create a graph for the following request:
 
 Hey Billy, post a random fact about cars to Discord."""
 
+node_type_mapping = {
+    "input.voice": InputVoiceNode,
+    "user_text_prompt": UserTextPromptNode,
+    "twitter.post": TwitterPostNode,
+    "discord.post": DiscordPostNode,
+    "giphy.search": GiphySearchNode,
+    "volume.up": VolumeUpNode,
+}
+
 
 class GraphBuilder:
     def __init__(self):
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     def build_graph(self, prompt: str) -> ActionNode:
+        print("User prompt:", prompt)
         res = self.openai_client.chat.completions.create(
             messages=[
                 {
@@ -90,14 +106,25 @@ class GraphBuilder:
             data = json.loads(json_str)
             nodes = {}
 
-            # Create nodes
+            # Create nodes using the specific subclass based on the type
             for node_id, node_info in data["nodes"].items():
-                nodes[node_id] = ActionNode(
-                    node_id, node_info["type"], [], node_info.get("outputs", []))
+                node_type = node_info["type"]
+                node_class = node_type_mapping.get(node_type, ActionNode)
+                nodes[node_id] = node_class(
+                    node_id, node_type, [], node_info.get("outputs", []))
+
+                # Add data to the node with any remaining keys
+                extra_data = {}
+                for key, value in node_info.items():
+                    if key not in ["type", "outputs"]:
+                        extra_data[key] = value
+
+                setattr(nodes[node_id], "data", extra_data)
 
             # Link nodes
             for node in nodes.values():
-                node.outputs = [nodes[out_id] for out_id in node.outputs]
+                node.outputs = [nodes[out_id]
+                                for out_id in node.outputs if out_id in nodes]
 
             return nodes
         except:

@@ -13,3 +13,4 @@ youtube_dl
 giphy_client
 tenacity
 openai
+pika
