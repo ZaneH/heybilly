@@ -25,12 +25,12 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - Proceed with nodes relevant to the command's intent.
 - Use 'user_text_prompt' for essential text inputs.
 - Employ only the provided node types.
-- Allow nodes to branch, one branch can end before reaching 'done'.
 - End each graph for the workflow with 'done'.
 
 - Searches should be excluded unless they are used later.
 - Do *NOT* use any placeholder text. (like {{input}} or %1%)
 - Try to create simple graphs instead of long and complex ones.
+- Ensure there is a path from 'input.voice' to 'done' only once in the graph. Branches that end in "dead-end nodes" should not obstruct or interfere with the main flow reaching 'done'.
 
 Example output:
 ```
@@ -60,7 +60,7 @@ Node Types:
 - youtube.play {video_id: String}: [Input: String] Plays YouTube video.
 - sfx.play {video_id: String}: [Input: String] Plays sound effect for 5s.
 - output.tts {text: String}: [Input: String] Play text to speech using "text".
-- volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Possible values: +1, -1, or values 0 thru 10.
+- volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, "+1", or "-1".
 - done: [Input: Any] Marks workflow completion.
 
 Workflow Examples:
