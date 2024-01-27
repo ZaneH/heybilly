@@ -13,6 +13,7 @@ from src.graph.nodes.twitter_post import TwitterPostNode
 from src.graph.nodes.user_text_prompt import UserTextPromptNode
 from src.graph.nodes.volume_down import VolumeDownNode
 from src.graph.nodes.volume_up import VolumeUpNode
+from src.graph.nodes.wolfram_simple import WolframSimpleNode
 from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
 
@@ -27,7 +28,7 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - Conclude each workflow with 'done'.
 
 - Searches should be excluded unless they are used later.
-- Do not use any kind of placeholder text.
+- Do NOT use any kind of placeholder text. (like {{input}} or %var[0]%)
 
 Example output:
 ```
@@ -35,7 +36,7 @@ Example output:
   "nodes": {
     "1": {
       "type": "input.voice",
-      "data": "Initial voice command.",
+      "text": "Initial voice command.",
       "outputs": ["2"]
     },
     // More nodes here
@@ -84,34 +85,32 @@ node_type_mapping = {
     "youtube.search": YouTubeSearchNode,
     "youtube.play": YouTubePlayNode,
     "sfx.play": SoundEffectNode,
+    "wolfram.simple": WolframSimpleNode,
 }
 
 ai_sample_content = None
-# '''{
-#   "nodes": {
-#     "1": {
-#       "type": "input.voice",
-#       "data": "Hey Billy, turn the volume up and post a car meme to Discord.",
-#       "outputs": ["2", "3"]
-#     },
-#     "2": {
-#       "type": "volume.up"
-#     },
-#     "3": {
-#       "type": "giphy.search",
-#       "query": "car",
-#       "shuffle": true,
-#       "outputs": ["4"]
-#     },
-#     "4": {
-#       "type": "discord.post",
-#       "outputs": ["5"]
-#     },
-#     "5": {
-#       "type": "done"
-#     }
-#   }
-# }'''
+'''{
+  "nodes": {
+    "1": {
+      "type": "input.voice",
+      "text": "Yo Billy, find out what the price of gold is and post it to the Discord.",
+      "outputs": ["2"]
+    },
+    "2": {
+      "type": "wolfram.simple",
+      "query": "Price of gold",
+      "outputs": ["3"]
+    },
+    "3": {
+      "type": "discord.post",
+      "text": "Here's the current price for gold: {{input}}",
+      "outputs": ["4"]
+    },
+    "4": {
+      "type": "done"
+    }
+  }
+}'''
 
 
 class GraphBuilder:
@@ -132,12 +131,14 @@ class GraphBuilder:
                         "content": prompt,
                     },
                 ],
-                model="ft:gpt-3.5-turbo-1106:startup::8lQF99eO"
+                model="ft:gpt-3.5-turbo-1106:startup::8lUQ5Z4W"
             )
 
             ai_content = res.choices[0].message.content
         else:
             ai_content = ai_sample_content
+
+        print(f'---\n{ai_content}\n---')
 
         try:
             return GraphBuilder._create_nodes_from_json(ai_content)
