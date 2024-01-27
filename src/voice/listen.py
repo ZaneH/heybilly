@@ -61,8 +61,7 @@ class Listen():
 
             await asyncio.sleep(0.25)  # Non-blocking sleep
 
-    async def start(self, action_queue: asyncio.Queue):
-        self.action_queue = action_queue
+    async def start(self):
         self.audio_queue = asyncio.Queue()
         non_english = False
 
@@ -143,5 +142,4 @@ class Listen():
         await self.run_tool_tree(processed_line)
 
     async def run_tool_tree(self, line):
-        data = self.tool_picker.determine_tools_and_query(line)
-        print(data)
+        print(line)

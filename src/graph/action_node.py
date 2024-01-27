@@ -1,4 +1,17 @@
 class ActionNode:
+    """
+    Base class for all nodes that perform an action.
+
+    Attributes:
+    - node_id: The ID of the node
+    - node_type: The type of the node
+    - inputs: The input nodes
+    - outputs: The output nodes
+    - data: The data associated with the node
+    - is_blocking: Whether the node is blocking
+    """
+    create_queue = True  # Should a RabbitMQ queue be created for this node?
+
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id
         self.node_type = node_type

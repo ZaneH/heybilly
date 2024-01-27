@@ -3,6 +3,7 @@ from src.graph.action_node import ActionNode
 
 
 class UserTextPromptNode(ActionNode):
+    create_queue = False
     is_blocking = True
 
     async def execute(self):
