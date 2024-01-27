@@ -1,3 +1,4 @@
+import asyncio
 import json
 from tenacity import retry, wait_fixed, stop_after_attempt, before_sleep_log
 import logging
@@ -52,6 +53,8 @@ class ActionNode:
         return None
 
     async def process(self, input_data=None):
+        await self.graph_processor.start_node(self)
+
         async def execute_wrapper():
             print(f"- Running {self.node_type} with input: {input_data}")
             return await self.execute(input_data)
@@ -61,8 +64,13 @@ class ActionNode:
         if output_data is not None:
             self.data["result"] = output_data  # set data.result
 
+        tasks = []
         for next_node in self.outputs:
-            await next_node.process(output_data)
+            tasks.append(next_node.process(output_data))
+        if tasks:
+            await asyncio.gather(*tasks)
+
+        await self.graph_processor.finish_node(self)
 
     def send_node_to_queue(self):
         if not hasattr(self.graph_processor, "rabbit_client"):

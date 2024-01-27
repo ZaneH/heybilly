@@ -135,7 +135,7 @@ class GraphBuilder:
         else:
             ai_content = ai_sample_content
 
-        print(f'---\n{ai_content}\n---')
+        print(f'---\nGraph Builder:\n{ai_content}\n---')
 
         return ai_content
 

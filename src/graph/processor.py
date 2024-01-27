@@ -1,3 +1,4 @@
+import asyncio
 import json
 from src.graph.builder import GraphBuilder
 
@@ -8,7 +9,14 @@ class GraphProcessor:
         self.current_node = "1"
         self.has_stale_text = False
         self.rabbit_client = rabbit_client
-        self.create_graph(graph_data)
+
+        self.graph = GraphBuilder._create_nodes_from_json(graph_data, self)
+
+        self.active_branches = 0
+        self.lock = asyncio.Lock()
+
+    def on_graph_complete(self):
+        print("✅ Graph completed.")
 
     def find_node_by_uuid(self, node_uuid):
         for node in self.graph.values():
@@ -50,9 +58,21 @@ class GraphProcessor:
             print("Error updating node text:", e)
             print("Edits string:", edits_str)
 
-    def create_graph(self, graph_data):
-        nodes = GraphBuilder._create_nodes_from_json(graph_data, self)
-        self.graph = nodes
+    async def start_node(self, node):
+        async with self.lock:
+            self.active_branches += 1
+
+    async def finish_node(self, node):
+        async with self.lock:
+            self.active_branches -= 1
+
+            if self.active_branches == 0:
+                self.on_graph_complete()
+
+    async def wait_for_completion(self):
+        while self.active_branches > 0:
+            await asyncio.sleep(0.1)
+        print("All branches have completed.")
 
     def to_json(self, with_uuid=False):
         # Serialize the entire graph to JSON

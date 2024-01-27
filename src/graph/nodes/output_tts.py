@@ -23,7 +23,6 @@ class OutputTTSNode(ActionNode):
         tts_url = StreamElementsTTS(StreamlabsVoice.Justin).get_url(text)
         self.data['tts_url'] = tts_url
 
-        print("Speaking", text)
         self.send_node_to_queue()
 
     def validate_inputs(self) -> bool:

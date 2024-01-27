@@ -5,7 +5,7 @@ class DiscordPostNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
 
     async def execute(self, input_data=None):
-        pass
+        self.send_node_to_queue()
 
     def validate_inputs(self) -> bool:
         """
