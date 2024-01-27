@@ -1,11 +1,38 @@
+import os
+import random
+
+from pyyoutube import Client
+
 from src.graph.action_node import ActionNode
+
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 
 class YouTubeSearchNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
-        pass
+        client = Client(api_key=GOOGLE_API_KEY)
+        shuffle = self.data.get('shuffle', False)
+        query = self.data['query']
+
+        if not query:
+            raise Exception("No YouTube search query provided")
+
+        limit = 1
+        if shuffle:
+            limit = 10
+
+        search_response = client.search.list(
+            q=query,
+            part='snippet',
+            maxResults=limit
+        )
+
+        if shuffle:
+            return random.choice(search_response.items).id.videoId
+
+        return search_response.items[0].id.videoId
 
     def validate_inputs(self) -> bool:
         """
