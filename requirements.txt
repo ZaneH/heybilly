@@ -4,12 +4,10 @@ SpeechRecognition
 torch
 numpy
 git+https://github.com/openai/whisper.git
-py-cord[voice]
 python-dotenv
 python-youtube
 wolframalpha
 requests
-youtube_dl
 giphy_client
 tenacity
 openai

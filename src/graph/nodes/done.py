@@ -1,7 +1,7 @@
 from src.graph.action_node import ActionNode
 
 
-class VolumeUpNode(ActionNode):
+class DoneNode(ActionNode):
     async def execute(self):
         print(f"{self.node_type} ran")
 

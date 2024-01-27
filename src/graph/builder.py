@@ -5,6 +5,7 @@ from openai import OpenAI
 
 from src.graph.action_node import ActionNode
 from src.graph.nodes.discord_post import DiscordPostNode
+from src.graph.nodes.done import DoneNode
 from src.graph.nodes.giphy_search import GiphySearchNode
 from src.graph.nodes.input_voice import InputVoiceNode
 from src.graph.nodes.twitter_post import TwitterPostNode
@@ -67,7 +68,35 @@ node_type_mapping = {
     "discord.post": DiscordPostNode,
     "giphy.search": GiphySearchNode,
     "volume.up": VolumeUpNode,
+    "done": DoneNode
 }
+
+ai_sample_content = '''{
+  "nodes": {
+    "1": {
+      "type": "input.voice",
+      "data": "Hey Billy, turn the volume up and post a car meme to Discord.",
+      "outputs": ["2"]
+    },
+    "2": {
+      "type": "volume.up",
+      "outputs": ["3"]
+    },
+    "3": {
+      "type": "giphy.search",
+      "query": "car",
+      "shuffle": true,
+      "outputs": ["4"]
+    },
+    "4": {
+      "type": "discord.post",
+      "outputs": ["5"]
+    },
+    "5": {
+      "type": "done"
+    }
+  }
+}'''
 
 
 class GraphBuilder:
@@ -76,21 +105,24 @@ class GraphBuilder:
 
     def build_graph(self, prompt: str) -> ActionNode:
         print("User prompt:", prompt)
-        res = self.openai_client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT,
-                },
-                {
-                    "role": "user",
-                    "content": prompt,
-                },
-            ],
-            model="ft:gpt-3.5-turbo-1106:startup::8lQF99eO"
-        )
+        if not ai_sample_content:
+            res = self.openai_client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": SYSTEM_PROMPT,
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    },
+                ],
+                model="ft:gpt-3.5-turbo-1106:startup::8lQF99eO"
+            )
 
-        ai_content = res.choices[0].message.content
+            ai_content = res.choices[0].message.content
+        else:
+            ai_content = ai_sample_content
 
         try:
             return GraphBuilder._create_nodes_from_json(ai_content)

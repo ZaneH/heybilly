@@ -5,21 +5,35 @@ class ActionNode:
         self.inputs = inputs
         self.outputs = outputs
         self.data = {}
+        self.is_blocking = False
 
-    def execute(self):
+    async def execute(self):
         # Generic execution method, to be overridden by subclasses
         pass
 
-    def process(self):
+    async def process(self):
         # Execute the current node and recursively process the next nodes
-        self.execute()
+        await self.execute()
         for next_node in self.outputs:
-            next_node.process()
+            inputs_ok = next_node.validate_inputs()
+            await next_node.process()
+
+    def validate_inputs(self) -> bool:
+        # Generic validation method, to be overridden by subclasses
+        return False
 
     def __str__(self):
         added_info = ""
         if self.data:
             added_info = f", Data={self.data}"
+        if self.is_blocking:
+            added_info += ", Blocking: ✅"
+
+        inputs_satisfied = self.validate_inputs()
+        if inputs_satisfied:
+            added_info += ", Inputs: ✅"
+        else:
+            added_info += ", Inputs: ❌"
 
         return f"{type(self).__name__}(ID={self.node_id}, Type={self.node_type}, Outputs={self._output_ids()}{added_info})"
 
