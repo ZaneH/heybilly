@@ -53,7 +53,7 @@ class ActionNode:
 
     async def process(self, input_data=None):
         async def execute_wrapper():
-            print(f"Executing {self.node_type} with input: {input_data}")
+            print(f"- Running {self.node_type} with input: {input_data}")
             return await self.execute(input_data)
 
         # Execute the current node and recursively process the next nodes
@@ -127,6 +127,10 @@ class ActionNode:
     def to_dict(self):
         # Convert all attributes to a dictionary
         node_dict = self.__dict__.copy()
+
+        # Drop the graph processor attribute
+        node_dict.pop('graph_processor', None)
+        node_dict.pop('rabbit_client', None)
 
         # Replace output nodes with their IDs in the dictionary
         node_dict['outputs'] = self._output_ids()

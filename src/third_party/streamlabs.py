@@ -46,4 +46,5 @@ class StreamlabsTTS():
 
         except Exception as e:
             print("Error getting Streamlabs TTS URL: ", e)
+            print("Response: ", res.text)
             return None
