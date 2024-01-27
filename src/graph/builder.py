@@ -8,9 +8,13 @@ from src.graph.nodes.discord_post import DiscordPostNode
 from src.graph.nodes.done import DoneNode
 from src.graph.nodes.giphy_search import GiphySearchNode
 from src.graph.nodes.input_voice import InputVoiceNode
+from src.graph.nodes.sound_effect import SoundEffectNode
 from src.graph.nodes.twitter_post import TwitterPostNode
 from src.graph.nodes.user_text_prompt import UserTextPromptNode
+from src.graph.nodes.volume_down import VolumeDownNode
 from src.graph.nodes.volume_up import VolumeUpNode
+from src.graph.nodes.youtube_play import YouTubePlayNode
+from src.graph.nodes.youtube_search import YouTubeSearchNode
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
@@ -21,6 +25,9 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - Employ action nodes (e.g., 'twitter.post', 'discord.post', 'volume.up', 'youtube.search') for specific tasks.
 - Allow nodes to output to multiple successors.
 - Conclude each workflow with 'done'.
+
+- Searches should be excluded unless they are used later.
+- Do not use any kind of placeholder text.
 
 Example output:
 ```
@@ -46,8 +53,11 @@ Node Types:
 - discord.post {text: String}: [Input: String; Outputs: Boolean] Posts to Discord, outputs confirmation.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries data, outputs result. Use for dynamic things like weather, finance, math, time, sports, etc.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
+- youtube.play {video_id: String}: [Input: String; Outputs: Boolean] Plays YouTube video, outputs confirmation.
 - output.tts {text: String}: [Input: String; Outputs: Boolean] Converts text to speech. Outputs confirmation.
 - volume.up: [No input; Outputs: Boolean] Increases volume, outputs confirmation.
+- volume.down: [No input; Outputs: Boolean] Decreases volume, outputs confirmation.
+- volume.set {value: Integer}: [Input: Integer (0-10); Outputs: Boolean] Sets volume, outputs confirmation.
 - done: [No input, No output] Marks workflow completion.
 
 Workflow Examples:
@@ -68,35 +78,39 @@ node_type_mapping = {
     "discord.post": DiscordPostNode,
     "giphy.search": GiphySearchNode,
     "volume.up": VolumeUpNode,
-    "done": DoneNode
+    "volume.down": VolumeDownNode,
+    "done": DoneNode,
+    "youtube.search": YouTubeSearchNode,
+    "youtube.play": YouTubePlayNode,
+    "sfx.play": SoundEffectNode,
 }
 
-ai_sample_content = '''{
-  "nodes": {
-    "1": {
-      "type": "input.voice",
-      "data": "Hey Billy, turn the volume up and post a car meme to Discord.",
-      "outputs": ["2"]
-    },
-    "2": {
-      "type": "volume.up",
-      "outputs": ["3"]
-    },
-    "3": {
-      "type": "giphy.search",
-      "query": "car",
-      "shuffle": true,
-      "outputs": ["4"]
-    },
-    "4": {
-      "type": "discord.post",
-      "outputs": ["5"]
-    },
-    "5": {
-      "type": "done"
-    }
-  }
-}'''
+ai_sample_content = None
+# '''{
+#   "nodes": {
+#     "1": {
+#       "type": "input.voice",
+#       "data": "Hey Billy, turn the volume up and post a car meme to Discord.",
+#       "outputs": ["2", "3"]
+#     },
+#     "2": {
+#       "type": "volume.up"
+#     },
+#     "3": {
+#       "type": "giphy.search",
+#       "query": "car",
+#       "shuffle": true,
+#       "outputs": ["4"]
+#     },
+#     "4": {
+#       "type": "discord.post",
+#       "outputs": ["5"]
+#     },
+#     "5": {
+#       "type": "done"
+#     }
+#   }
+# }'''
 
 
 class GraphBuilder:
@@ -142,8 +156,8 @@ class GraphBuilder:
             for node_id, node_info in data["nodes"].items():
                 node_type = node_info["type"]
                 node_class = node_type_mapping.get(node_type, ActionNode)
-                nodes[node_id] = node_class(
-                    node_id, node_type, [], node_info.get("outputs", []))
+                nodes[node_id] = node_class(node_id, node_type, node_info.get(
+                    "inputs", []), node_info.get("outputs", []))
 
                 # Add data to the node with any remaining keys
                 extra_data = {}
@@ -160,6 +174,6 @@ class GraphBuilder:
 
             return nodes
         except:
-            print("Error in _create_nodes_from_json.")
+            print("Error turning JSON into nodes.")
             print(json_str)
             return None
