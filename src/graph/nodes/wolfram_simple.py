@@ -7,6 +7,8 @@ class WolframSimpleNode(ActionNode):
     async def execute(self, input_data=None):
         print(f"{self.node_type} ran")
 
+        self.graph_processor.has_stale_text = True
+
         return 'WolframSimpleNode demo output'
 
     def validate_inputs(self) -> bool:

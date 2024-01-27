@@ -119,7 +119,7 @@ class ActionNode:
             object['data'] = data
 
         if with_uuid and self.needs_uuid:
-            object['node_uuid'] = random_id()
+            object['node_uuid'] = self.node_uuid
 
         return object
 
