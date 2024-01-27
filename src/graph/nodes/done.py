@@ -5,7 +5,7 @@ class DoneNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
-        pass
+        return True
 
     def validate_inputs(self) -> bool:
         return True

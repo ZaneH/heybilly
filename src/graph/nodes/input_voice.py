@@ -5,8 +5,6 @@ class InputVoiceNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
-        pass
-
         return getattr(self.data, 'text', None)
 
     def validate_inputs(self) -> bool:
