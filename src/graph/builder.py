@@ -54,6 +54,7 @@ Node Types:
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries data, outputs result. Use for dynamic things like weather, finance, math, time, sports, etc.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
 - youtube.play {video_id: String}: [Input: String; Outputs: Boolean] Plays YouTube video, outputs confirmation.
+- sfx.play {video_id: String}: [Input: String; Outputs: Boolean] Plays sound effect for 5s, outputs confirmation.
 - output.tts {text: String}: [Input: String; Outputs: Boolean] Converts text to speech. Outputs confirmation.
 - volume.up: [No input; Outputs: Boolean] Increases volume, outputs confirmation.
 - volume.down: [No input; Outputs: Boolean] Decreases volume, outputs confirmation.
