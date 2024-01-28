@@ -1,4 +1,5 @@
 import asyncio
+import json
 import re
 from datetime import datetime, timedelta
 
@@ -35,7 +36,10 @@ class Listen():
         graph = self.builder.build_graph(processed_line)
         processor = GraphProcessor(self.rabbit_client, graph)
         self.rabbit_client.send_ai_response(
-            "ai.builder.responses", graph
+            "ai.builder.responses", json.dumps({
+                "input": processed_line,
+                "output": json.loads(graph)
+            }, indent=4)
         )
 
         await processor.start()

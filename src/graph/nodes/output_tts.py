@@ -1,3 +1,4 @@
+import json
 from src.graph.action_node import ActionNode
 from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
 from src.voice.personality import Personality
@@ -14,6 +15,13 @@ class OutputTTSNode(ActionNode):
 
         output = personality.suggest_edits(personality_input)
         self.graph_processor.apply_edits_to_graph(output)
+
+        self.graph_processor.rabbit_client.send_ai_response(
+            "ai.personality.responses", json.dumps({
+                "input": json.loads(personality_input),
+                "output": json.loads(output)
+            }, indent=4)
+        )
 
         text = self.data['text']
 
