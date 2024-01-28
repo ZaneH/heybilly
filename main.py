@@ -1,14 +1,23 @@
 import asyncio
 import logging
+import argparse
 
 from dotenv import load_dotenv
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(name)s: %(message)s')
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '--verbose', help='Enable verbose logging', action='store_true')
+args = parser.parse_args()
 
-# Adjust 'httpx' with the name of the library
-logging.getLogger('httpx').setLevel(logging.WARNING)
+if args.verbose:
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(name)s: %(message)s')
+
+else:
+    logging.getLogger('httpx').setLevel(logging.WARNING)
+    logging.basicConfig(level=logging.INFO,
+                        format='%(name)s: %(message)s')
 
 
 async def main():

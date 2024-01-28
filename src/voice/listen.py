@@ -59,6 +59,9 @@ class Listen():
             # GraphProcessor throws a ValueError if the graph is invalid
             processor = GraphProcessor(self.rabbit_client, graph)
 
+            # Attach the request to the processor
+            setattr(processor, "user_input", processed_line)
+
             # Start processing the graph
             await processor.start()
 
