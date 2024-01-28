@@ -1,8 +1,21 @@
 import asyncio
 import json
 import logging
+
+from tenacity import before_sleep_log, retry, stop_after_attempt, wait_fixed
 from src.graph.builder import GraphBuilder
 from src.voice.personality import Personality
+
+
+logging.basicConfig()
+log = logging.getLogger("tenacity.retry")
+log.setLevel(logging.INFO)
+
+retry_strategy = retry(
+    wait=wait_fixed(2),  # Wait 2 seconds between retries
+    stop=stop_after_attempt(3),  # Stop after 3 attempts
+    before_sleep=before_sleep_log(log, logging.INFO)  # Log before retrying
+)
 
 
 class GraphProcessor:
@@ -28,6 +41,7 @@ class GraphProcessor:
             logging.error(f"Error processing graph: {e}")
             logging.error(self.pretty_print())
 
+    @retry_strategy
     def add_personality(self):
         """
         Add personality to the graph. `has_stale_text` is set to True
@@ -67,6 +81,8 @@ class GraphProcessor:
 
                 # If the node is found, update its text
                 if node:
+                    logging.debug(
+                        f"Updating node {node_uuid} with text: {new_text}")
                     node.data['text'] = new_text
                 else:
                     logging.warning(f"No node found with UUID: {node_uuid}")
@@ -76,6 +92,7 @@ class GraphProcessor:
         except Exception as e:
             logging.warning(f"Couldn't update node text: {e}")
             logging.warning(f"Edits string: {edits_str}")
+            raise e
 
     async def start_node(self, node):
         async with self.lock:
