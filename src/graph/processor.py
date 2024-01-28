@@ -39,7 +39,7 @@ class GraphProcessor:
             await self.graph["1"].process()
         except Exception as e:
             logging.error(f"Error processing graph: {e}")
-            logging.error(self.pretty_print())
+            logging.error(self.graph)
 
     @retry_strategy
     def add_personality(self):
