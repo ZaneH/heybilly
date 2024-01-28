@@ -1,9 +1,9 @@
 # HeyBilly v2 💻🎶
 
-Welcome to **HeyBilly v2**, it's a modular voice assistant. Create your
-own integrations, or use the ones that are already built-in. Compose a tweet,
-listen to music, or get the weather all with your voice. Contributions are
-welcome.
+Welcome to **HeyBilly v2**, it's a modular voice assistant. Create [your
+own integrations](https://github.com/ZaneH/heybilly-v2/wiki/Developers-Guide),
+or use the ones that are already built-in. Compose a tweet, listen to music,
+or get the weather all with your voice. Contributions are welcome.
 
 ## Features
 
