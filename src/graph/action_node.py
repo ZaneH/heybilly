@@ -56,7 +56,11 @@ class ActionNode:
         await self.graph_processor.start_node(self)
 
         async def execute_wrapper():
-            print(f"- Running {self.node_type} with input: {input_data}")
+            if input_data is None:
+                print(f"- Running {self.node_type} with no input data.")
+            else:
+                print(f"- Running {self.node_type} with input: {input_data}")
+
             return await self.execute(input_data)
 
         # Execute the current node and recursively process the next nodes

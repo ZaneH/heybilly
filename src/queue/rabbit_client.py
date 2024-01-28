@@ -4,7 +4,12 @@ import pika
 class RabbitClient:
     def __init__(self):
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+            pika.ConnectionParameters(
+                host='localhost',
+                heartbeat=600,
+                blocked_connection_timeout=300
+            ))
+
         self.channel = self.connection.channel()
 
     def send_node(self, node_type: str, data: str):

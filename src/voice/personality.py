@@ -35,6 +35,7 @@ class Personality:
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     def suggest_edits(self, prompt: str) -> str:
+        print("🗣️ Adding personality")
         res = self.openai_client.chat.completions.create(
             messages=[
                 {
