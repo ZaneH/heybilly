@@ -9,8 +9,12 @@ class WolframSimpleNode(ActionNode):
     create_queue = False
 
     async def execute(self, input_data=None):
+        query = self.data['query']
+        if not query:
+            raise Exception("No WolframAlpha query provided")
+
         client = wolframalpha.Client(WOLFRAM_APP_ID)
-        res = client.query(self.data['query'])
+        res = client.query(query)
 
         self.graph_processor.has_stale_text = True
         return next(res.results).text

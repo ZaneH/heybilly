@@ -34,7 +34,6 @@ class GraphProcessor:
         try:
             # Load the edits object from the given string
             edits_obj = json.loads(edits_str)
-            print("Loaded edits:", edits_obj)
 
             # Iterate through each edit in the 'edits' list
             for edit in edits_obj['edits']:
@@ -48,7 +47,6 @@ class GraphProcessor:
                 # If the node is found, update its text
                 if node:
                     node.data['text'] = new_text
-                    print(f"Updated text for node {node_uuid}: {new_text}")
                 else:
                     print(f"No node found with UUID: {node_uuid}")
 

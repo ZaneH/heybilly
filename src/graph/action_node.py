@@ -61,8 +61,6 @@ class ActionNode:
 
         # Execute the current node and recursively process the next nodes
         output_data = await retry_handler(execute_wrapper)
-        if output_data is not None:
-            self.data["result"] = output_data  # set data.result
 
         tasks = []
         for next_node in self.outputs:
@@ -132,13 +130,13 @@ class ActionNode:
 
         return object
 
+    # Being used for RabbitMQ serialization
     def to_dict(self):
         # Convert all attributes to a dictionary
         node_dict = self.__dict__.copy()
 
         # Drop the graph processor attribute
         node_dict.pop('graph_processor', None)
-        node_dict.pop('rabbit_client', None)
 
         # Drop input/output nodes
         node_dict.pop('inputs', None)

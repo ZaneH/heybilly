@@ -7,6 +7,9 @@ import speech_recognition as sr
 import torch
 import whisper
 
+from src.graph.builder import GraphBuilder
+from src.graph.processor import GraphProcessor
+
 # Heavily based on davabase/whisper_real_time for real time transcription
 # https://github.com/davabase/whisper_real_time/tree/master
 
@@ -14,9 +17,11 @@ WAKE_WORDS = ["ok billy", "yo billy", "okay billy", "hey billy"]
 
 
 class Listen():
-    def __init__(self) -> None:
+    def __init__(self, rabbit_client) -> None:
         self.should_stop = False
         self.data_queue = asyncio.Queue()
+        self.rabbit_client = rabbit_client
+        self.builder = GraphBuilder()
 
     def stop(self):
         self.should_stop = True
@@ -126,20 +131,19 @@ class Listen():
 
         return min(pos for pos in wake_word_positions if pos >= 0)
 
-    async def process_transcript(self, line):
-        wake_word_start = self.find_wake_word_start(line)
+    async def process_transcript(self, transcript):
+        wake_word_start = self.find_wake_word_start(transcript)
         if wake_word_start == -1:
             return  # No wake word found
 
         # Slice the line from the first wake word
         # it isn't perfect, but it's good enough
-        processed_line = line[wake_word_start:]
+        processed_line = transcript[wake_word_start:]
 
         print("*" * 80)
         print("* ", processed_line)
         print("*" * 80)
 
-        await self.run_tool_tree(processed_line)
-
-    async def run_tool_tree(self, line):
-        print(line)
+        graph = self.builder.build_graph(transcript)
+        processor = GraphProcessor(self.rabbit_client, graph)
+        await processor.start()
