@@ -21,7 +21,7 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - Searches should be excluded unless they are used later.
 - Do *NOT* use any placeholder text. (like {{input}} or %1%)
 - Try to create simple graphs instead of long and complex ones.
-- Ensure there is a path from 'input.voice' to 'done' only once in the graph. Branches that end in "dead-end nodes" should not obstruct or interfere with the main flow reaching 'done'.
+- Ensure there is a path from 'input.voice' to 'done' only once in the graph. Branches that end in 'dead-end nodes' should not obstruct or interfere with the main flow reaching 'done'.
 
 Example output:
 ```
@@ -50,8 +50,8 @@ Node Types:
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Searches YouTube, outputs video list.
 - youtube.play {video_id: String}: [Input: String] Plays YouTube video.
 - sfx.play {video_id: String}: [Input: String] Plays short sound effect for 5s.
-- output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using "text".
-- volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, "+", or "-".
+- output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using 'text'.
+- volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, '+', or '-'.
 - hn.top: [No input; Outputs: Array] Outputs top 10 Hacker News posts.
 - pexels.search {query: String, shuffle: Boolean}: [Input: String; Outputs: String] Search stock photos on Pexels, outputs image URL.
 - done: [Input: Any] Marks workflow completion.
