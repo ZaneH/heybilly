@@ -8,7 +8,9 @@ class YouTubePlayNode(ActionNode):
         if type(input_data) != str:
             raise Exception("Input data must be a string")
 
-        self.data['video_id'] = input_data
+        url_prefix = "https://www.youtube.com/watch?v="
+        self.data['video_url'] = url_prefix + input_data
+
         self.send_node_to_queue()
 
         return True

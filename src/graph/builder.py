@@ -3,36 +3,10 @@ import logging
 import os
 
 from openai import OpenAI
-from src.graph.validator import GraphValidator
 
 from src.graph.action_node import ActionNode
-from src.graph.nodes.discord_post import DiscordPostNode
-from src.graph.nodes.done import DoneNode
-from src.graph.nodes.giphy_search import GiphySearchNode
-from src.graph.nodes.input_voice import InputVoiceNode
-from src.graph.nodes.output_tts import OutputTTSNode
-from src.graph.nodes.sound_effect import SoundEffectNode
-from src.graph.nodes.twitter_post import TwitterPostNode
-from src.graph.nodes.user_text_prompt import UserTextPromptNode
-from src.graph.nodes.volume_set import VolumeSetNode
-from src.graph.nodes.wolfram_simple import WolframSimpleNode
-from src.graph.nodes.youtube_play import YouTubePlayNode
-from src.graph.nodes.youtube_search import YouTubeSearchNode
-
-NODE_MAP = {
-    "input.voice": InputVoiceNode,
-    "user_text_prompt": UserTextPromptNode,
-    "twitter.post": TwitterPostNode,
-    "discord.post": DiscordPostNode,
-    "wolfram.simple": WolframSimpleNode,
-    "youtube.search": YouTubeSearchNode,
-    "youtube.play": YouTubePlayNode,
-    "sfx.play": SoundEffectNode,
-    "output.tts": OutputTTSNode,
-    "volume.set": VolumeSetNode,
-    "giphy.search": GiphySearchNode,
-    "done": DoneNode,
-}
+from src.graph.node_map import NODE_MAP
+from src.graph.validator import GraphValidator
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 BUILDER_MODEL_ID = os.getenv("BUILDER_MODEL_ID")
@@ -147,8 +121,8 @@ class GraphBuilder:
             data = json.loads(json_str)
 
             GraphValidator.validate_nodes(data)
-
             nodes = {}
+
             # Create nodes using the specific subclass based on the type
             for node_id, node_info in data["nodes"].items():
                 node_type = node_info["type"]

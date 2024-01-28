@@ -12,7 +12,7 @@ logging.getLogger('httpx').setLevel(logging.WARNING)
 
 
 async def main():
-    from src.graph.builder import NODE_MAP
+    from src.graph.node_map import NODE_MAP
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
 

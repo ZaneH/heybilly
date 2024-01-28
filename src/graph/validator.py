@@ -1,4 +1,4 @@
-from src.graph.builder import NODE_MAP
+from src.graph.node_map import NODE_MAP
 
 
 class GraphValidator:

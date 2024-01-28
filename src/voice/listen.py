@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 import speech_recognition as sr
+from tenacity import before_sleep_log, retry, stop_after_attempt, wait_exponential
 import torch
 import whisper
 
@@ -16,6 +17,11 @@ from src.graph.processor import GraphProcessor
 # https://github.com/davabase/whisper_real_time/tree/master
 
 WAKE_WORDS = ["ok billy", "yo billy", "okay billy", "hey billy"]
+
+# Retry logging
+logging.basicConfig()
+log = logging.getLogger("tenacity.retry")
+log.setLevel(logging.INFO)
 
 
 class Listen():
@@ -34,16 +40,35 @@ class Listen():
         # it isn't perfect, but it's good enough
         processed_line = transcript[wake_word_start:]
 
-        graph = self.builder.build_graph(processed_line)
-        processor = GraphProcessor(self.rabbit_client, graph)
-        self.rabbit_client.send_ai_response(
-            "ai.builder.responses", json.dumps({
-                "input": processed_line,
-                "output": json.loads(graph)
-            }, indent=4)
-        )
+        # Create and process the graph
+        await self.create_and_process_graph(processed_line)
 
-        await processor.start()
+    @retry(wait=wait_exponential(multiplier=1, min=4, max=10),
+           stop=stop_after_attempt(3),
+           before_sleep=before_sleep_log(log, logging.INFO))
+    async def create_and_process_graph(self, processed_line):
+        try:
+            graph = self.builder.build_graph(processed_line)
+            self.rabbit_client.send_ai_response(
+                "ai.builder.responses", json.dumps({
+                    "input": processed_line,
+                    "output": json.loads(graph)
+                }, indent=4)
+            )
+
+            # GraphProcessor throws a ValueError if the graph is invalid
+            processor = GraphProcessor(self.rabbit_client, graph)
+
+            # Start processing the graph
+            await processor.start()
+
+        except ValueError as e:
+            logging.error(f"Graph validation error: {e}")
+            raise  # Important: Re-raise the exception to trigger the retry
+        except Exception as e:
+            logging.error("Error processing graph")
+            logging.error(e)
+            raise  # Important: Re-raise the exception to trigger the retry
 
     def stop(self):
         self.should_stop = True
