@@ -50,7 +50,7 @@ Node Types:
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
 - youtube.play {video_id: String}: [Input: String] Plays YouTube video.
 - sfx.play {video_id: String}: [Input: String] Plays sound effect for 5s.
-- output.tts {text: String}: [Input: String] Play text to speech using "text".
+- output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using "text".
 - volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, "+", or "-".
 - done: [Input: Any] Marks workflow completion.
 

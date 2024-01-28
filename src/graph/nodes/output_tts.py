@@ -1,7 +1,5 @@
-import json
 from src.graph.action_node import ActionNode
 from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
-from src.voice.personality import Personality
 from src.third_party.streamelements import StreamElementsTTS
 
 
@@ -11,6 +9,8 @@ class OutputTTSNode(ActionNode):
 
     async def execute(self, input_data=None):
         self.graph_processor.add_personality()
+
+        # Expecting this field to exist already
         text = self.data['text']
 
         if not text:
@@ -20,6 +20,8 @@ class OutputTTSNode(ActionNode):
         self.data['tts_url'] = tts_url
 
         self.send_node_to_queue()
+
+        return text
 
     def validate_inputs(self) -> bool:
         """

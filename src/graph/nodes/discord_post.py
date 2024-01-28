@@ -6,12 +6,18 @@ class DiscordPostNode(ActionNode):
     needs_uuid = True
 
     async def execute(self, input_data=None):
+        # Update the text in the graph before adding personality
+        new_text = None
+        if type(input_data) == str:
+            new_text = input_data
+        elif getattr(input_data, 'text', None):
+            new_text = input_data.text
+
         # TODO: Figure out how validate_inputs plays into this
-        if type(input_data) != str and not getattr(input_data, 'text', None):
+        if type(new_text) != str:
             raise Exception("Input data must be a string")
 
-        # Update the text in the graph before adding personality
-        self.data['text'] = input_data
+        self.data['text'] = new_text
 
         self.graph_processor.add_personality()
 
