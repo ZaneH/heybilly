@@ -5,15 +5,8 @@ import logging
 
 from src.utils.random import random_id
 
-logging.basicConfig()
-log = logging.getLogger("tenacity.retry")
-log.setLevel(logging.INFO)
-
-retry_strategy = retry(
-    wait=wait_fixed(2),  # Wait 2 seconds between retries
-    stop=stop_after_attempt(3),  # Stop after 3 attempts
-    before_sleep=before_sleep_log(log, logging.INFO)  # Log before retrying
-)
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
 
 
 async def retry_handler(func, *args, **kwargs):
@@ -22,6 +15,27 @@ async def retry_handler(func, *args, **kwargs):
     """
     retrying_func = retry_strategy(func)
     return await retrying_func(*args, **kwargs)
+
+
+def log_custom_message(retry_state):
+    attempt_number = retry_state.attempt_number
+    log.debug(
+        f"Attempt {attempt_number}: Retrying node in {retry_state.next_action.sleep} seconds")
+
+
+def handle_retry_error(retry_state):
+    log.error(
+        f"Error prcessing node after {retry_state.attempt_number} attempts")
+    log.error(retry_state.outcome.exception())
+    return retry_state.outcome.result()
+
+
+retry_strategy = retry(
+    wait=wait_fixed(2),
+    stop=stop_after_attempt(3),
+    before_sleep=log_custom_message,
+    retry_error_callback=handle_retry_error
+)
 
 
 class ActionNode:
@@ -65,8 +79,12 @@ class ActionNode:
 
             return await self.execute(input_data)
 
-        # Execute the current node and recursively process the next nodes
-        output_data = await retry_handler(execute_wrapper)
+        try:
+            # Execute the current node and recursively process the next nodes
+            output_data = await retry_handler(execute_wrapper)
+        except Exception as e:
+            logging.error(f"Final error after retries: {e}")
+            raise e
 
         tasks = []
         for next_node in self.outputs:

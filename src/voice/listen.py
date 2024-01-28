@@ -69,7 +69,7 @@ class Listen():
             logging.error(f"Graph validation error: {e}")
             raise  # Important: Re-raise the exception to trigger the retry
         except Exception as e:
-            logging.error("Error processing graph")
+            logging.error("Error creating and processing graph")
             logging.error(e)
             raise  # Important: Re-raise the exception to trigger the retry
 
@@ -140,7 +140,7 @@ class Listen():
         self.audio_model = whisper.load_model(model)
 
         # These could be fine-tuned. I'm not sure what the best values are.
-        record_timeout = 6
+        record_timeout = 4
         phrase_timeout = 3
 
         with source:
