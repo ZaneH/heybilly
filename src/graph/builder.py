@@ -46,13 +46,14 @@ Node Types:
 - twitter.post {text: String}: [Input: String] Posts to Twitter.
 - discord.post {text: String}: [Input: String] Posts to Discord.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
-- giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Queries Giphy, outputs GIF URL. Use full words to get back results.
-- youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Searches YouTube, outputs video list.
+- giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Queries Giphy, outputs GIF URL. Use full words to get back results.
+- youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Searches YouTube, outputs video list.
 - youtube.play {video_id: String}: [Input: String] Plays YouTube video.
 - sfx.play {video_id: String}: [Input: String] Plays sound effect for 5s.
 - output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using "text".
 - volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, "+", or "-".
 - hn.top: [No input; Outputs: Array] Outputs top 10 Hacker News posts.
+- pexels.search {query: String, shuffle: Boolean}: [Input: String; Outputs: String] Search stock photos on Pexels, outputs image URL.
 - done: [Input: Any] Marks workflow completion.
 
 Workflow Examples:

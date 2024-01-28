@@ -13,3 +13,4 @@ tenacity
 openai
 pika
 feedparser
+pexels-api

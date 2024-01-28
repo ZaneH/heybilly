@@ -1,3 +1,4 @@
+from src.graph.nodes.pexels_search import PexelsSearchNode
 from src.graph.nodes.discord_post import DiscordPostNode
 from src.graph.nodes.done import DoneNode
 from src.graph.nodes.giphy_search import GiphySearchNode
@@ -25,5 +26,6 @@ NODE_MAP = {
     "volume.set": VolumeSetNode,
     "giphy.search": GiphySearchNode,
     "hn.top": HNTopNode,
+    "pexels.search": PexelsSearchNode,
     "done": DoneNode,
 }
