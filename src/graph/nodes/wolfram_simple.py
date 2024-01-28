@@ -16,8 +16,12 @@ class WolframSimpleNode(ActionNode):
         client = wolframalpha.Client(WOLFRAM_APP_ID)
         res = client.query(query)
 
+        result = next(res.results).text
+        self.data['result'] = result
+
+        # Mark the graph as stale so it will be reprocessed
         self.graph_processor.has_stale_text = True
-        return next(res.results).text
+        return result
 
     def validate_inputs(self) -> bool:
         """
