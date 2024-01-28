@@ -10,6 +10,7 @@ from src.graph.nodes.volume_set import VolumeSetNode
 from src.graph.nodes.wolfram_simple import WolframSimpleNode
 from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
+from src.graph.nodes.hn_top import HNTopNode
 
 NODE_MAP = {
     "input.voice": InputVoiceNode,
@@ -23,5 +24,6 @@ NODE_MAP = {
     "output.tts": OutputTTSNode,
     "volume.set": VolumeSetNode,
     "giphy.search": GiphySearchNode,
+    "hn.top": HNTopNode,
     "done": DoneNode,
 }

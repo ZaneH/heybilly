@@ -7,11 +7,12 @@ class DiscordPostNode(ActionNode):
 
     async def execute(self, input_data=None):
         # Update the text in the graph before adding personality
-        new_text = None
+        new_text = ""
         if type(input_data) == str:
-            new_text = input_data
-        elif getattr(input_data, 'text', None):
-            new_text = input_data.text
+            new_text += input_data
+
+        if getattr(self.data, 'text', None):
+            new_text += self.data['text']
 
         # TODO: Figure out how validate_inputs plays into this
         if type(new_text) != str:

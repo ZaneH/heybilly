@@ -12,3 +12,4 @@ giphy_client
 tenacity
 openai
 pika
+feedparser

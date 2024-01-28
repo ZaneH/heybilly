@@ -57,10 +57,11 @@ class ActionNode:
 
         async def execute_wrapper():
             if input_data is None:
-                logging.info(f"- Running {self.node_type} with no input data.")
+                logging.info(f"- Running {self.node_type}.")
             else:
                 logging.info(
-                    f"- Running {self.node_type} with input: {input_data}")
+                    f"- Running {self.node_type}")
+                logging.info(f"{self}")
 
             return await self.execute(input_data)
 
@@ -83,6 +84,7 @@ class ActionNode:
 
         rc = self.graph_processor.rabbit_client
 
+        logging.debug(f"Sending node to queue: {str(self)}")
         rc.send_node(self.node_type, json.dumps(self.to_dict()))
 
     def validate_inputs(self) -> bool:

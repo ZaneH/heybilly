@@ -10,12 +10,18 @@ parser.add_argument(
     '--verbose', help='Enable verbose logging', action='store_true')
 args = parser.parse_args()
 
+logging.getLogger('httpx').setLevel(logging.WARNING)
+logging.getLogger('asyncio').setLevel(logging.WARNING)
+logging.getLogger('aio_pika').setLevel(logging.WARNING)
+logging.getLogger('pika').setLevel(logging.WARNING)
+logging.getLogger('httpcore').setLevel(logging.WARNING)
+logging.getLogger('openai').setLevel(logging.WARNING)
+
 if args.verbose:
     logging.basicConfig(level=logging.DEBUG,
                         format='%(name)s: %(message)s')
 
 else:
-    logging.getLogger('httpx').setLevel(logging.WARNING)
     logging.basicConfig(level=logging.INFO,
                         format='%(name)s: %(message)s')
 
