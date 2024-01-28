@@ -17,6 +17,21 @@ from src.graph.nodes.wolfram_simple import WolframSimpleNode
 from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
 
+NODE_MAP = {
+    "input.voice": InputVoiceNode,
+    "user_text_prompt": UserTextPromptNode,
+    "twitter.post": TwitterPostNode,
+    "discord.post": DiscordPostNode,
+    "wolfram.simple": WolframSimpleNode,
+    "youtube.search": YouTubeSearchNode,
+    "youtube.play": YouTubePlayNode,
+    "sfx.play": SoundEffectNode,
+    "output.tts": OutputTTSNode,
+    "volume.set": VolumeSetNode,
+    "giphy.search": GiphySearchNode,
+    "done": DoneNode,
+}
+
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BUILDER_MODEL_ID = os.environ.get("BUILDER_MODEL_ID")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
@@ -69,21 +84,6 @@ Workflow Examples:
 3. YouTube Video Query: 'input.voice' -> 'youtube.search' -> 'discord.post' -> 'done'.
 
 Ensure workflows there is a path from 'input.voice' to 'done' only once in the graph."""
-
-node_type_mapping = {
-    "input.voice": InputVoiceNode,
-    "user_text_prompt": UserTextPromptNode,
-    "twitter.post": TwitterPostNode,
-    "discord.post": DiscordPostNode,
-    "wolfram.simple": WolframSimpleNode,
-    "youtube.search": YouTubeSearchNode,
-    "youtube.play": YouTubePlayNode,
-    "sfx.play": SoundEffectNode,
-    "output.tts": OutputTTSNode,
-    "volume.set": VolumeSetNode,
-    "giphy.search": GiphySearchNode,
-    "done": DoneNode,
-}
 
 ai_sample_content = None
 '''{
@@ -148,7 +148,7 @@ class GraphBuilder:
             # Create nodes using the specific subclass based on the type
             for node_id, node_info in data["nodes"].items():
                 node_type = node_info["type"]
-                node_class = node_type_mapping.get(node_type, ActionNode)
+                node_class = NODE_MAP.get(node_type, ActionNode)
                 nodes[node_id] = node_class(node_id, node_type, node_info.get(
                     "inputs", []), node_info.get("outputs", []))
 

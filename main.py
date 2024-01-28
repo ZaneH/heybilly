@@ -5,7 +5,7 @@ load_dotenv()
 
 
 async def main():
-    from src.graph.builder import node_type_mapping
+    from src.graph.builder import NODE_MAP
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
 
@@ -13,8 +13,8 @@ async def main():
 
     # Create a queue for the node if needed. Useful for your own integrations.
     def create_queues():
-        for node_type in node_type_mapping:
-            create_queue = node_type_mapping[node_type].create_queue
+        for node_type in NODE_MAP:
+            create_queue = NODE_MAP[node_type].create_queue
 
             if create_queue:
                 rabbit_client.create_queue(node_type)
