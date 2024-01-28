@@ -8,7 +8,6 @@ from src.voice.personality import Personality
 class GraphProcessor:
     def __init__(self, rabbit_client, graph_data):
         self.graph = {}
-        self.current_node = "1"
         self.has_stale_text = False
         self.personality = Personality()
         self.rabbit_client = rabbit_client
@@ -21,11 +20,12 @@ class GraphProcessor:
     def on_graph_complete(self):
         logging.info("✅ Graph completed.")
 
-    def find_node_by_uuid(self, node_uuid):
-        for node in self.graph.values():
-            if node.node_uuid == node_uuid:
-                return node
-        return None
+    async def start(self):
+        try:
+            await self.graph["1"].process()
+        except Exception as e:
+            logging.error(f"Error processing graph: {e}")
+            logging.error(self.pretty_print())
 
     def add_personality(self):
         """
@@ -105,9 +105,8 @@ class GraphProcessor:
         for node in self.graph.values():
             logging.info(f"    {node}")
 
-    async def start(self):
-        try:
-            await self.graph[self.current_node].process()
-        except Exception as e:
-            logging.error(f"Error processing graph: {e}")
-            logging.error(self.pretty_print())
+    def find_node_by_uuid(self, node_uuid):
+        for node in self.graph.values():
+            if node.node_uuid == node_uuid:
+                return node
+        return None
