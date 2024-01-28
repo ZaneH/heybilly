@@ -29,10 +29,13 @@ class YouTubeSearchNode(ActionNode):
             maxResults=limit
         )
 
-        if shuffle:
-            return random.choice(search_response.items).id.videoId
+        url_prefix = 'https://www.youtube.com/watch?v='
+        video_id = search_response.items[0].id.videoId
 
-        return search_response.items[0].id.videoId
+        if shuffle:
+            video_id = random.choice(search_response.items).id.videoId
+
+        return url_prefix + video_id
 
     def validate_inputs(self) -> bool:
         """
