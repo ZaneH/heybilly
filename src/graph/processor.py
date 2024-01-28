@@ -1,6 +1,8 @@
 import asyncio
 import json
+import logging
 from src.graph.builder import GraphBuilder
+from src.voice.personality import Personality
 
 
 class GraphProcessor:
@@ -8,6 +10,7 @@ class GraphProcessor:
         self.graph = {}
         self.current_node = "1"
         self.has_stale_text = False
+        self.personality = Personality()
         self.rabbit_client = rabbit_client
 
         self.graph = GraphBuilder._create_nodes_from_json(graph_data, self)
@@ -16,7 +19,7 @@ class GraphProcessor:
         self.lock = asyncio.Lock()
 
     def on_graph_complete(self):
-        print("✅ Graph completed.")
+        logging.info("✅ Graph completed.")
 
     def find_node_by_uuid(self, node_uuid):
         for node in self.graph.values():
@@ -24,13 +27,30 @@ class GraphProcessor:
                 return node
         return None
 
+    def add_personality(self):
+        """
+        Add personality to the graph. `has_stale_text` is set to True
+        when the graph is updated with valuable information.
+        """
+        if self.has_stale_text == False:
+            return
+
+        personality_input = self.to_json(with_uuid=True)
+
+        output = self.personality.suggest_edits(personality_input)
+        self.apply_edits_to_graph(output)
+
+        self.rabbit_client.send_ai_response(
+            "ai.personality.responses", json.dumps({
+                "input": json.loads(personality_input),
+                "output": json.loads(output)
+            }, indent=4)
+        )
+
     def apply_edits_to_graph(self, edits_str):
         """
         Update the text in the graph based on the given edits.
         """
-        if not self.has_stale_text:
-            return
-
         try:
             # Load the edits object from the given string
             edits_obj = json.loads(edits_str)
@@ -48,13 +68,13 @@ class GraphProcessor:
                 if node:
                     node.data['text'] = new_text
                 else:
-                    print(f"No node found with UUID: {node_uuid}")
+                    logging.warning(f"No node found with UUID: {node_uuid}")
 
             self.has_stale_text = False
 
         except Exception as e:
-            print("Error updating node text:", e)
-            print("Edits string:", edits_str)
+            logging.warning(f"Couldn't update node text: {e}")
+            logging.warning(f"Edits string: {edits_str}")
 
     async def start_node(self, node):
         async with self.lock:
@@ -70,7 +90,8 @@ class GraphProcessor:
     async def wait_for_completion(self):
         while self.active_branches > 0:
             await asyncio.sleep(0.1)
-        print("All branches have completed.")
+
+        logging.debug("All branches have completed.")
 
     def to_json(self, with_uuid=False):
         # Serialize the entire graph to JSON
@@ -80,13 +101,13 @@ class GraphProcessor:
         return json.dumps({"nodes": graph_dict}, indent=4)
 
     def pretty_print(self):
-        print("Graph:")
+        logging.info("Graph:")
         for node in self.graph.values():
-            print("    ", node)
+            logging.info(f"    {node}")
 
     async def start(self):
         try:
             await self.graph[self.current_node].process()
         except Exception as e:
-            print("Error processing graph:", e)
-            print(self.pretty_print())
+            logging.error(f"Error processing graph: {e}")
+            logging.error(self.pretty_print())

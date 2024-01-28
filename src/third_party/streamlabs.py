@@ -1,3 +1,4 @@
+import logging
 import requests
 from enum import Enum
 
@@ -39,12 +40,12 @@ class StreamlabsTTS():
                 "text": text
             }
 
-            print("Speaking: ", text)
+            logging.info(f"Speaking: {text}")
 
             res = requests.post(url, data=payload)
             return res.json()['speak_url']
 
         except Exception as e:
-            print("Error getting Streamlabs TTS URL: ", e)
-            print("Response: ", res.text)
+            logging.error(f"Error getting Streamlabs TTS URL: {e}")
+            logging.error(f"Response: {res.text}")
             return None

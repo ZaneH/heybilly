@@ -1,7 +1,14 @@
 import asyncio
+import logging
 
 from dotenv import load_dotenv
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(name)s: %(message)s')
+
+# Adjust 'httpx' with the name of the library
+logging.getLogger('httpx').setLevel(logging.WARNING)
 
 
 async def main():

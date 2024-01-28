@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import re
 from datetime import datetime, timedelta
 
@@ -137,7 +138,7 @@ class Listen():
         )
 
         # Cue the user that we're ready to go.
-        print("Billy is listening...\n")
+        logging.info("Billy is listening...")
 
         await self.process_audio_queue(phrase_timeout)
 

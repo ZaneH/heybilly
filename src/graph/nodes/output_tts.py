@@ -10,19 +10,7 @@ class OutputTTSNode(ActionNode):
     needs_uuid = True
 
     async def execute(self, input_data=None):
-        personality = Personality()
-        personality_input = self.graph_processor.to_json(with_uuid=True)
-
-        output = personality.suggest_edits(personality_input)
-        self.graph_processor.apply_edits_to_graph(output)
-
-        self.graph_processor.rabbit_client.send_ai_response(
-            "ai.personality.responses", json.dumps({
-                "input": json.loads(personality_input),
-                "output": json.loads(output)
-            }, indent=4)
-        )
-
+        self.graph_processor.add_personality()
         text = self.data['text']
 
         if not text:

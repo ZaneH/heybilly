@@ -57,9 +57,10 @@ class ActionNode:
 
         async def execute_wrapper():
             if input_data is None:
-                print(f"- Running {self.node_type} with no input data.")
+                logging.info(f"- Running {self.node_type} with no input data.")
             else:
-                print(f"- Running {self.node_type} with input: {input_data}")
+                logging.info(
+                    f"- Running {self.node_type} with input: {input_data}")
 
             return await self.execute(input_data)
 
@@ -76,7 +77,8 @@ class ActionNode:
 
     def send_node_to_queue(self):
         if not hasattr(self.graph_processor, "rabbit_client"):
-            print("RabbitMQ client not set. Cannot send node to queue.")
+            logging.critical(
+                "RabbitMQ client not set. Cannot send node to queue.")
             return
 
         rc = self.graph_processor.rabbit_client

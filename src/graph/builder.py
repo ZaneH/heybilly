@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from openai import OpenAI
@@ -114,8 +115,8 @@ class GraphBuilder:
     def __init__(self):
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-    def build_graph(self, prompt: str) -> ActionNode:
-        print("User prompt:", prompt)
+    def build_graph(self, prompt: str, verbose=False) -> ActionNode:
+        logging.info(f"User prompt: {prompt}")
         if not ai_sample_content:
             res = self.openai_client.chat.completions.create(
                 messages=[
@@ -135,7 +136,8 @@ class GraphBuilder:
         else:
             ai_content = ai_sample_content
 
-        print(f'---\nGraph Builder:\n{ai_content}\n---')
+        if verbose:
+            logging.debug(f'---\nGraph Builder:\n{ai_content}\n---')
 
         return ai_content
 
@@ -168,6 +170,6 @@ class GraphBuilder:
 
             return nodes
         except:
-            print("Error turning JSON into nodes.")
-            print(json_str)
+            logging.error("Error turning JSON into nodes.")
+            logging.error(json_str)
             return None
