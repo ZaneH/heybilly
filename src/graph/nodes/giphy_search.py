@@ -5,7 +5,7 @@ import giphy_client
 
 from src.graph.action_node import ActionNode
 
-GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY')
+GIPHY_API_KEY = os.getenv('GIPHY_API_KEY')
 
 
 class GiphySearchNode(ActionNode):

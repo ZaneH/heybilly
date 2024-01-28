@@ -3,8 +3,8 @@ import os
 
 from openai import OpenAI
 
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-PERSONALITY_MODEL_ID = os.environ.get('PERSONALITY_MODEL_ID')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+PERSONALITY_MODEL_ID = os.getenv('PERSONALITY_MODEL_ID')
 
 SYSTEM_PROMPT = """Your job is to be a home assistant. You are trained
 on how to respond to requests from users. You will always respond with a

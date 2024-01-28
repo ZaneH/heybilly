@@ -3,6 +3,7 @@ import logging
 import os
 
 from openai import OpenAI
+from src.graph.validator import GraphValidator
 
 from src.graph.action_node import ActionNode
 from src.graph.nodes.discord_post import DiscordPostNode
@@ -33,8 +34,8 @@ NODE_MAP = {
     "done": DoneNode,
 }
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-BUILDER_MODEL_ID = os.environ.get("BUILDER_MODEL_ID")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+BUILDER_MODEL_ID = os.getenv("BUILDER_MODEL_ID")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 
 - Begin with 'input.voice' for initial voice commands.
@@ -115,7 +116,7 @@ class GraphBuilder:
     def __init__(self):
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-    def build_graph(self, prompt: str, verbose=False) -> ActionNode:
+    def build_graph(self, prompt: str):
         logging.info(f"User prompt: {prompt}")
         if not ai_sample_content:
             res = self.openai_client.chat.completions.create(
@@ -136,8 +137,7 @@ class GraphBuilder:
         else:
             ai_content = ai_sample_content
 
-        if verbose:
-            logging.debug(f'---\nGraph Builder:\n{ai_content}\n---')
+        logging.debug(f'---\nGraph Builder:\n{ai_content}\n---')
 
         return ai_content
 
@@ -145,8 +145,10 @@ class GraphBuilder:
     def _create_nodes_from_json(json_str, graph_processor):
         try:
             data = json.loads(json_str)
-            nodes = {}
 
+            GraphValidator.validate_nodes(data)
+
+            nodes = {}
             # Create nodes using the specific subclass based on the type
             for node_id, node_info in data["nodes"].items():
                 node_type = node_info["type"]
@@ -154,13 +156,15 @@ class GraphBuilder:
                 nodes[node_id] = node_class(node_id, node_type, node_info.get(
                     "inputs", []), node_info.get("outputs", []))
 
-                # Add data to the node with any remaining keys
+                # Add node.data[...] to the node with any remaining keys
                 extra_data = {}
                 for key, value in node_info.items():
                     if key not in ["type", "outputs"]:
                         extra_data[key] = value
 
                 setattr(nodes[node_id], "data", extra_data)
+
+                # Having a reference to the graph processor is useful
                 setattr(nodes[node_id], "graph_processor", graph_processor)
 
             # Link nodes

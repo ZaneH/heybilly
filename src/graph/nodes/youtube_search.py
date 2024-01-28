@@ -5,7 +5,7 @@ from pyyoutube import Client
 
 from src.graph.action_node import ActionNode
 
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 
 class YouTubeSearchNode(ActionNode):

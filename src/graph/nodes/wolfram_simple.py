@@ -2,7 +2,7 @@ import os
 import wolframalpha
 from src.graph.action_node import ActionNode
 
-WOLFRAM_APP_ID = os.environ.get('WOLFRAM_APP_ID')
+WOLFRAM_APP_ID = os.getenv('WOLFRAM_APP_ID')
 
 
 class WolframSimpleNode(ActionNode):
