@@ -11,7 +11,7 @@ class DiscordPostNode(ActionNode):
         if type(input_data) == str:
             new_text += input_data
 
-        if getattr(self.data, 'text', None):
+        if 'text' in self.data:
             new_text += self.data['text']
 
         # TODO: Figure out how validate_inputs plays into this
