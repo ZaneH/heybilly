@@ -15,6 +15,7 @@ class GraphProcessor:
         self.graph = GraphBuilder._create_nodes_from_json(graph_data, self)
 
         self.active_branches = 0
+        self.executed_nodes = set()
         self.lock = asyncio.Lock()
 
     def on_graph_complete(self):
@@ -78,14 +79,19 @@ class GraphProcessor:
 
     async def start_node(self, node):
         async with self.lock:
-            self.active_branches += 1
+            if node.node_uuid not in self.executed_nodes:
+                self.active_branches += 1
+                self.executed_nodes.add(node.node_uuid)
+            else:
+                logging.debug(f"Node {node.node_uuid} was already executed.")
 
     async def finish_node(self, node):
         async with self.lock:
-            self.active_branches -= 1
+            if node.node_uuid in self.executed_nodes:
+                self.active_branches -= 1
 
-            if self.active_branches == 0:
-                self.on_graph_complete()
+                if self.active_branches == 0:
+                    self.on_graph_complete()
 
     async def wait_for_completion(self):
         while self.active_branches > 0:

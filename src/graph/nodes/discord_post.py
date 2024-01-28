@@ -9,7 +9,11 @@ class DiscordPostNode(ActionNode):
         if type(input_data) != str:
             raise Exception("Input data must be a string")
 
+        # Update the text in the graph before adding personality
         self.data['text'] = input_data
+
+        self.graph_processor.add_personality()
+
         self.send_node_to_queue()
 
         return True
