@@ -16,5 +16,9 @@ class RabbitClient:
         self.channel.basic_publish(
             exchange='', routing_key=node_type, body=data)
 
-    def create_queue(self, queue_name: str):
-        self.channel.queue_declare(queue=queue_name)
+    def create_queue(self, queue_name: str, **kwargs):
+        self.channel.queue_declare(queue=queue_name, **kwargs)
+
+    def send_ai_response(self, queue_name: str, data: str):
+        self.channel.basic_publish(
+            exchange='', routing_key=queue_name, body=data)

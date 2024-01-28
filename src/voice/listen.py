@@ -23,6 +23,23 @@ class Listen():
         self.rabbit_client = rabbit_client
         self.builder = GraphBuilder()
 
+    async def process_transcript(self, transcript):
+        wake_word_start = self.find_wake_word_start(transcript)
+        if wake_word_start == -1:
+            return  # No wake word found
+
+        # Slice the line from the first wake word
+        # it isn't perfect, but it's good enough
+        processed_line = transcript[wake_word_start:]
+
+        graph = self.builder.build_graph(processed_line)
+        processor = GraphProcessor(self.rabbit_client, graph)
+        self.rabbit_client.send_ai_response(
+            "ai.builder.responses", graph
+        )
+
+        await processor.start()
+
     def stop(self):
         self.should_stop = True
 
@@ -130,20 +147,3 @@ class Listen():
             return -1
 
         return min(pos for pos in wake_word_positions if pos >= 0)
-
-    async def process_transcript(self, transcript):
-        wake_word_start = self.find_wake_word_start(transcript)
-        if wake_word_start == -1:
-            return  # No wake word found
-
-        # Slice the line from the first wake word
-        # it isn't perfect, but it's good enough
-        processed_line = transcript[wake_word_start:]
-
-        print("*" * 80)
-        print("* ", processed_line)
-        print("*" * 80)
-
-        graph = self.builder.build_graph(transcript)
-        processor = GraphProcessor(self.rabbit_client, graph)
-        await processor.start()

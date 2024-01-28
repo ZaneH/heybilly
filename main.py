@@ -5,8 +5,7 @@ load_dotenv()
 
 
 async def main():
-    from src.graph.builder import GraphBuilder, node_type_mapping
-    from src.graph.processor import GraphProcessor
+    from src.graph.builder import node_type_mapping
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
 
@@ -19,6 +18,11 @@ async def main():
 
             if create_queue:
                 rabbit_client.create_queue(node_type)
+
+        # Used for logging and easily fine-tuning the AI
+        args = {'x-max-length': 10}
+        rabbit_client.create_queue("ai.builder.responses", arguments=args)
+        rabbit_client.create_queue("ai.personality.responses", arguments=args)
 
     create_queues()
 
