@@ -30,39 +30,59 @@ or get the weather all with your voice. Contributions are welcome.
 Follow these steps to get HeyBilly up and running on your Discord server:
 
 1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/ZaneH/HeyBilly-v2.git
-   ```
+
+```bash
+git clone https://github.com/ZaneH/HeyBilly-v2.git
+```
 
 2. **Create a Virtual Environment**
-   Use Conda to create a new environment specifically for HeyBilly:
-   ```bash
-   conda create -n heybilly-v2 python=3.10 -y
-   ```
+
+Use Conda to create a new environment specifically for HeyBilly:
+
+```bash
+conda create -n heybilly-v2 python=3.10 -y
+```
 
 3. **Activate the Virtual Environment**
-   ```bash
-   conda activate heybilly-v2
-   ```
+
+```bash
+conda activate heybilly-v2
+```
 
 4. **Install Dependencies**
-   Install all the required packages using pip:
-   ```bash
-   pip install -r requirements.txt
-   ```
+
+Install all the required packages using pip:
+
+```bash
+pip install -r requirements.txt
+```
 
 5. **Setup Environment Variables**
    
-   Rename `.env.sample` to `.env` and populate it with your own API keys.
+Rename `.env.sample` to `.env` and populate it with your own API keys.
 
 6. **Fine-Tune the Model**
    
-   Go to https://platform.openai.com/finetune and create a new fine-tuning job. Use the files in `./fine_tune_data` to train the `gpt-3.5-turbo-1106` model. Once finished, copy the model ID and update your environment variables accordingly.
+Go to https://platform.openai.com/finetune and create a new fine-tuning job. Use the files in `./fine_tune_data` to train the `gpt-3.5-turbo-1106` model. Once finished, copy the model ID and update your environment variables accordingly.
 
-7. **Run HeyBilly**
-   ```bash
-   python main.py
-   ```
+7. **Start RabbitMQ**
+
+The Rabbit dashboard is at http://localhost:15672. The default login is `guest:guest`.
+
+It can be useful for debugging, but you only need to run it in the background with:
+
+```bash
+docker run --rm -d --hostname heybilly-v2-rabbit \
+            --name heybilly-v2-rabbit \
+            -p 15672:15672 -p 5672:5672 \
+            rabbitmq:3-management
+```
+
+8. **Run HeyBilly**
+
+```bash
+python main.py
+```
 
 ## Usage
 
