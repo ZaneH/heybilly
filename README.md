@@ -36,7 +36,7 @@ Experience dynamic interactions with HeyBilly's advanced Text-to-Speech feature.
 
 ## Preview
 
-![image](https://github.com/ZaneH/heybilly-v2/assets/8400251/d78819e1-9bdc-47d5-a27b-57f23ea6657a)
+![Console screenshot](https://github.com/ZaneH/heybilly-v2/assets/8400251/f29cc1ef-b7d5-444a-ba68-211c27aa2a11)
 
 ## Setup Instructions
 
