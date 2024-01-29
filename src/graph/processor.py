@@ -68,7 +68,8 @@ class GraphProcessor:
         """
         try:
             # Load the edits object from the given string
-            edits_obj = json.loads(edits_str)
+            # (strict=False allows for more lenient parsing)
+            edits_obj = json.loads(edits_str, strict=False)
 
             # Iterate through each edit in the 'edits' list
             for edit in edits_obj['edits']:
