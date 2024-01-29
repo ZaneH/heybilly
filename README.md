@@ -98,34 +98,45 @@ We encourage developers to delve into our comprehensive guides and contribute to
 
 HeyBilly v2 is equipped with a diverse set of built-in nodes, each designed to perform specific tasks seamlessly. Here's an overview of the nodes you can utilize within your workflows:
 
-### Input & Output Nodes
+#### Input & Output Nodes
 - **input.voice**: Captures voice commands from the user.
-- **user_text_prompt**: Prompts the user for text input.
+- **user_text_prompt**: **(Not implemented)** Prompts the user for text input.
 - **output.tts**: Converts text into spoken voice in the chat.
 
-### Social Media & Communication Nodes
-- **twitter.post**: Posts messages to Twitter.
+#### Social Media & Communication Nodes
+- **twitter.post**: **(Not implemented)** Posts messages to Twitter.
 - **discord.post**: Sends messages or content to Discord channels.
 
-### Information & Data Nodes
+#### Query Nodes
 - **wolfram.simple**: Fetches and provides data from Wolfram Alpha, including weather, stocks, and more.
 - **hn.top**: Retrieves top stories from Hacker News.
 - **giphy.search**: Finds and posts GIFs based on specified search criteria.
-
-### Multimedia & Entertainment Nodes
 - **youtube.search**: Searches for YouTube videos based on user queries.
-- **youtube.play**: Plays a specified YouTube video.
-- **sfx.play**: Plays a short sound effect.
 - **pexels.search**: Searches for images via the Pexels API.
 
-### Utility Nodes
+#### Multimedia Nodes
+- **youtube.play**: Plays a specified YouTube video.
+- **sfx.play**: Plays a short sound effect.
+
+#### Utility Nodes
 - **volume.set**: Adjusts the volume level of the bot in voice channels.
 - **done**: Marks the completion of the workflow in the graph.
 
-These nodes are the building blocks of HeyBilly v2, allowing users to create versatile and interactive voice command workflows. Create your own nodes and create a PR!
+These nodes are the building blocks of HeyBilly v2, allowing users to create versatile and interactive voice command workflows. Feel free to create your own nodes and open a PR!
 
 ## Contributions
-We invite you to collaborate, innovate, and share in the creation of HeyBilly v2. Your unique contributions foster the advancement of this open-source community.
+The project is still in its infancy and your contributions would have a big impact. Here are some ways you can contribute:
+
+### Todo:
+
+- [ ] Add more fine-tuning data
+- [ ] Figure out how the `validate_inputs` function could be useful (currently unused)
+- [ ] Improve speed of voice transcription
+- [ ] Play TTS through computer if the user doesn't want to use the Discord bot
+
+#### Low Priority
+
+- [ ] Create tooling for graphs to aid in inspection and fine-tuning
 
 ### Contribution Process
 1. Fork the Repository
