@@ -142,6 +142,7 @@ The project is still in its infancy and your contributions would have a big impa
 - [ ] Add more built-in nodes (Decision node, etc.)
 - [ ] ~~Add user_text_prompt node~~ (In progress)
 - [ ] Feed previous request into next request (e.g. "What is the weather in New York?" -> "What about the time?")
+- [ ] Separate Rabbit data from RAG data
 
 #### Low Priority
 

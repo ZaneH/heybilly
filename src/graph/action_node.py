@@ -45,10 +45,10 @@ class ActionNode:
     Attributes:
     - node_id: The ID of the node
     - node_type: The type of the node
-    - inputs: The input nodes
+    - inputs: (Unused) The input nodes
     - outputs: The output nodes
     - data: The data associated with the node
-    - is_blocking: Whether the node is blocking
+    - is_blocking: (Unused) Whether the node is blocking
     """
     create_queue = True  # Should a RabbitMQ queue be created for this node?
     can_add_personality = False  # Should personality ever be added to this node?
