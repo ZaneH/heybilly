@@ -34,6 +34,10 @@ Experience dynamic interactions with HeyBilly's advanced Text-to-Speech feature.
 
 - Currently only available for Discord.
 
+## Preview
+
+![image](https://github.com/ZaneH/heybilly-v2/assets/8400251/d78819e1-9bdc-47d5-a27b-57f23ea6657a)
+
 ## Setup Instructions
 
 Start running HeyBilly v2 by following these steps:
