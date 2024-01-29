@@ -9,10 +9,10 @@ class DiscordPostNode(ActionNode):
         # Update the text in the graph before adding personality
         new_text = ""
         if type(input_data) == str:
-            new_text += input_data
+            new_text = input_data
 
         if 'text' in self.data:
-            new_text += self.data['text']
+            new_text = self.data['text']
 
         # TODO: Figure out how validate_inputs plays into this
         if type(new_text) != str:
