@@ -66,8 +66,8 @@ Evolve `.env.sample` into `.env` and meticulously input your distinct API creden
 ### Train Your Model With Fine-Tuning
 Go to https://platform.openai.com/finetune, and create a job for `gpt-3.5-turbo-1106` with each file in `./fine_tune_data`. Update your `.env` file with your new MODEL_IDs once the jobs are complete.
 
-### Initiation of RabbitMQ
-Facilitate a flawless flow of messages:
+### Run RabbitMQ
+Start the RabbitMQ container:
 
 ```bash
 docker run --rm -d --hostname heybilly-v2-rabbit \
@@ -77,7 +77,7 @@ docker run --rm -d --hostname heybilly-v2-rabbit \
 ```
 
 ### Activation
-Commence your HeyBilly v2 expedition:
+Start HeyBilly v2:
 
 ```bash
 python main.py # you can add --verbose
@@ -133,10 +133,11 @@ The project is still in its infancy and your contributions would have a big impa
 - [ ] Add more fine-tuning data
 - [ ] Play TTS response if the graph fails completely
 - [ ] Figure out how the `validate_inputs` function could be useful (currently unused)
-- [ ] Improve speed of voice transcription
+- [ ] Improve speed of voice transcription (VAD, etc.)
 - [ ] Play TTS through computer if the user doesn't want to use the Discord bot
 - [ ] Add more built-in nodes (Decision node, etc.)
 - [ ] ~~Add user_text_prompt node~~ (In progress)
+- [ ] Feed previous request into next request (e.g. "What is the weather in New York?" -> "What about the time?")
 
 #### Low Priority
 
