@@ -38,7 +38,7 @@ Experience dynamic interactions with HeyBilly's advanced Text-to-Speech feature.
 
 Start running HeyBilly v2 by following these steps:
 
-### Repository Acquisition
+### Clone Repository
 Grab the latest version of HeyBilly right from the source:
 
 ```bash
@@ -53,8 +53,8 @@ conda create -n heybilly-v2 python=3.10 -y
 conda activate heybilly-v2
 ```
 
-### Installation of Dependencies
-Effortlessly equip yourself with the necessary tools:
+### Install Dependencies
+Install Python packages:
 
 ```bash
 pip install -r requirements.txt
@@ -63,8 +63,8 @@ pip install -r requirements.txt
 ### Configuration of Environment Variables
 Evolve `.env.sample` into `.env` and meticulously input your distinct API credentials.
 
-### Mastery Through Model Fine-Tuning
-Venture to https://platform.openai.com/finetune, refine `gpt-3.5-turbo-1106` with `./fine_tune_data`, and update your `.env` file with your new MODEL_IDs.
+### Train Your Model With Fine-Tuning
+Go to https://platform.openai.com/finetune, and create a job for `gpt-3.5-turbo-1106` with each file in `./fine_tune_data`. Update your `.env` file with your new MODEL_IDs once the jobs are complete.
 
 ### Initiation of RabbitMQ
 Facilitate a flawless flow of messages:
