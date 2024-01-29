@@ -34,7 +34,11 @@ class PexelsSearchNode(ActionNode):
         if shuffle:
             random.shuffle(results)
 
-        return results[0].original
+        self.graph_processor.has_stale_text = True
+        result = results[0].original
+        self.data['result'] = result
+
+        return result
 
     def validate_inputs(self) -> bool:
         """

@@ -13,9 +13,10 @@ JSON dict.
 Your task is to only modify nodes with `node_uuid` and only edit/attach the
 'text' field. The text field should be a string. Make the length of your
 response appropriate for the output node. Try to keep your answers short and
-concise. Fill in any placeholders that you see.
-
-Use context from nodes in the graph to help you construct your response.
+concise. Your output for each node will be given directly to the user, you
+must fill in any placeholders with the correct data by using data from
+previous nodes. Especially make sure that `output.tts` nodes have all the
+info a user would expect to hear back.
 
 Example output:
 ```

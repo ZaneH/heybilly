@@ -35,7 +35,15 @@ class YouTubeSearchNode(ActionNode):
         if shuffle:
             video_id = random.choice(search_response.items).id.videoId
 
-        return url_prefix + video_id
+        if not video_id:
+            raise Exception("No video ID found")
+
+        video_url = url_prefix + video_id
+
+        self.graph_processor.has_stale_text = True
+        self.data['result'] = video_url
+
+        return video_url
 
     def validate_inputs(self) -> bool:
         """

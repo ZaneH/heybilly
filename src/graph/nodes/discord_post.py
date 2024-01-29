@@ -10,11 +10,12 @@ class DiscordPostNode(ActionNode):
         if 'text' in self.data:
             new_text = self.data['text']
 
-        # Overwrite the text if input_data is provided
-        if type(input_data) == str:
+        # If no text was provided in the data field, use the input data
+        # very important for continuity. There's needs to be a better way.
+        # TODO: Figure out how validate_inputs plays into this
+        if new_text == "" and type(input_data) == str:
             new_text = input_data
 
-        # TODO: Figure out how validate_inputs plays into this
         if type(new_text) != str:
             raise Exception("Input data must be a string")
 
