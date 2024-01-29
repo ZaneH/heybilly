@@ -12,6 +12,7 @@ from src.graph.nodes.wolfram_simple import WolframSimpleNode
 from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
 from src.graph.nodes.hn_top import HNTopNode
+from src.graph.nodes.nyt_top import NYTTopNode
 
 NODE_MAP = {
     "input.voice": InputVoiceNode,
@@ -26,6 +27,7 @@ NODE_MAP = {
     "volume.set": VolumeSetNode,
     "giphy.search": GiphySearchNode,
     "hn.top": HNTopNode,
+    "nyt.top": NYTTopNode,
     "pexels.search": PexelsSearchNode,
     "done": DoneNode,
 }

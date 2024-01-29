@@ -54,6 +54,7 @@ Node Types:
 - output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using 'text'.
 - volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, '+', or '-'.
 - hn.top: [No input; Outputs: Array] Outputs top 10 Hacker News posts.
+- nyt.top: [No input; Outputs: Array] Outputs top 10 New York Times posts.
 - pexels.search {query: String, shuffle: Boolean}: [Input: String; Outputs: String] Search stock photos on Pexels, outputs image URL.
 - done: [Input: Any] Marks workflow completion.
 

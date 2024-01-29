@@ -110,6 +110,7 @@ HeyBilly v2 is equipped with a diverse set of built-in nodes, each designed to p
 #### Query Nodes
 - **wolfram.simple**: Fetches and provides data from Wolfram Alpha, including weather, stocks, and more.
 - **hn.top**: Retrieves top stories from Hacker News.
+- **nyt.top**: Retrieves top stories from the New York Times.
 - **giphy.search**: Finds and posts GIFs based on specified search criteria.
 - **youtube.search**: Searches for YouTube videos based on user queries.
 - **pexels.search**: Searches for images via the Pexels API.
