@@ -6,11 +6,11 @@ class DiscordPostNode(ActionNode):
     needs_uuid = True
 
     async def execute(self, input_data=None):
-        # Update the text in the graph before adding personality
         new_text = ""
         if 'text' in self.data:
             new_text = self.data['text']
 
+        # Overwrite the text if input_data is provided
         if type(input_data) == str:
             new_text = input_data
 
@@ -18,6 +18,7 @@ class DiscordPostNode(ActionNode):
         if type(new_text) != str:
             raise Exception("Input data must be a string")
 
+        # Update the text in the graph before adding personality
         self.data['text'] = new_text
 
         self.graph_processor.add_personality()

@@ -41,7 +41,12 @@ class Listen():
         processed_line = transcript[wake_word_start:]
 
         # Create and process the graph
-        await self.create_and_process_graph(processed_line)
+        try:
+            await self.create_and_process_graph(processed_line)
+        except Exception as e:
+            logging.error(
+                "Error creating and processing graph. Likely a previously unseen request.")
+            logging.error(e)
 
     @retry(wait=wait_exponential(multiplier=1, min=4, max=10),
            stop=stop_after_attempt(3),

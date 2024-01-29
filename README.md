@@ -131,6 +131,7 @@ The project is still in its infancy and your contributions would have a big impa
 ### Todo:
 
 - [ ] Add more fine-tuning data
+- [ ] Play TTS response if the graph fails completely
 - [ ] Figure out how the `validate_inputs` function could be useful (currently unused)
 - [ ] Improve speed of voice transcription
 - [ ] Play TTS through computer if the user doesn't want to use the Discord bot
