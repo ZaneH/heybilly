@@ -19,7 +19,7 @@ SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 - End each graph for the workflow with 'done'.
 
 - Searches should be excluded unless they are used later.
-- Do *NOT* use any placeholder text. (like {{input}} or %1%)
+- Do *NOT* use any placeholder text.
 - Try to create simple graphs instead of long and complex ones.
 - Ensure there is a path from 'input.voice' to 'done' only once in the graph.
 - Branches that end in 'dead-end nodes' should not obstruct or interfere with the main flow reaching 'done'.
