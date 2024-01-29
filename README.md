@@ -1,9 +1,9 @@
-# HeyBilly v2
+# HeyBilly
 
 ## Introduction
-Welcome to **HeyBilly v2**, your voice-activated assistant. Whether you want to check the weather, play your favorite music, or stay updated with the latest news, HeyBilly listens to your commands and acts fast. It's like having a helpful friend, always ready to assist you with just your voice.
+Welcome to **HeyBilly**, your voice-activated assistant. Whether you want to check the weather, play your favorite music, or stay updated with the latest news, HeyBilly listens to your commands and acts fast. It's like having a helpful friend, always ready to assist you with just your voice.
 
-Consider setting up the [Discord bot](https://github.com/ZaneH/heybilly-v2-discord) for more features.
+Consider setting up the [Discord bot](https://github.com/ZaneH/heybilly-discord) for more features.
 
 ## Features
 
@@ -36,25 +36,25 @@ Experience dynamic interactions with HeyBilly's advanced Text-to-Speech feature.
 
 ## Preview
 
-![Console screenshot](https://github.com/ZaneH/heybilly-v2/assets/8400251/f29cc1ef-b7d5-444a-ba68-211c27aa2a11)
+![Console screenshot](https://github.com/ZaneH/heybilly/assets/8400251/f29cc1ef-b7d5-444a-ba68-211c27aa2a11)
 
 ## Setup Instructions
 
-Start running HeyBilly v2 by following these steps:
+Start running HeyBilly by following these steps:
 
 ### Clone Repository
 Grab the latest version of HeyBilly right from the source:
 
 ```bash
-git clone https://github.com/ZaneH/HeyBilly-v2.git
+git clone https://github.com/ZaneH/HeyBilly.git
 ```
 
 ### Environment Configuration
 Create and activate a conda environment for HeyBilly:
 
 ```bash
-conda create -n heybilly-v2 python=3.10 -y
-conda activate heybilly-v2
+conda create -n heybilly python=3.10 -y
+conda activate heybilly
 ```
 
 ### Install Dependencies
@@ -74,33 +74,33 @@ Go to https://platform.openai.com/finetune, and create a job for `gpt-3.5-turbo-
 Start the RabbitMQ container:
 
 ```bash
-docker run --rm -d --hostname heybilly-v2-rabbit \
-            --name heybilly-v2-rabbit \
+docker run --rm -d --hostname heybilly-rabbit \
+            --name heybilly-rabbit \
             -p 15672:15672 -p 5672:5672 \
             rabbitmq:3-management
 ```
 
 ### Activation
-Start HeyBilly v2:
+Start HeyBilly:
 
 ```bash
 python main.py # you can add --verbose
 ```
 
 ## Usage
-HeyBilly v2 is in a phase of continuous enhancement. Anticipate additional functionalities and updates shortly.
+HeyBilly is in a phase of continuous enhancement. This section will be updated shortly.
 
 ## For Developers 🛠️
-HeyBilly v2 is designed with developers in mind. Explore the depths of HeyBilly's architecture, understand its lifecycle, and contribute to its growth:
+HeyBilly is designed with developers in mind. Explore the depths of HeyBilly's architecture, understand the "graph lifecycle", and contribute to its growth:
 
-- [Graph Lifecycle](https://github.com/ZaneH/heybilly-v2/wiki/Graph-Lifecycle)
-- [Developer's Guide](https://github.com/ZaneH/heybilly-v2/wiki/Developers-Guide)
+- [Graph Lifecycle](https://github.com/ZaneH/heybilly/wiki/Graph-Lifecycle)
+- [Developer's Guide](https://github.com/ZaneH/heybilly/wiki/Developers-Guide)
 
-We encourage developers to delve into our comprehensive guides and contribute to the evolution of HeyBilly v2.
+Please check out these comprehensive guides and contribute to the evolution of HeyBilly.
 
 ### Built-in Nodes
 
-HeyBilly v2 is equipped with a diverse set of built-in nodes, each designed to perform specific tasks seamlessly. Here's an overview of the nodes you can utilize within your workflows:
+HeyBilly is equipped with a diverse set of built-in nodes, each designed to perform specific tasks seamlessly. Here's an overview of the nodes you can utilize within your workflows:
 
 #### Input & Output Nodes
 - **input.voice**: Captures voice commands from the user.
@@ -127,7 +127,7 @@ HeyBilly v2 is equipped with a diverse set of built-in nodes, each designed to p
 - **volume.set**: Adjusts the volume level of the bot in voice channels.
 - **done**: Marks the completion of the workflow in the graph.
 
-These nodes are the building blocks of HeyBilly v2, allowing users to create versatile and interactive voice command workflows. Feel free to create your own nodes and open a PR!
+These nodes are the building blocks of HeyBilly, allowing users to create versatile and interactive voice command workflows. Feel free to create your own nodes and open a PR!
 
 ## Contributions
 The project is still in its infancy and your contributions would have a big impact. Here are some ways you can contribute:
@@ -156,12 +156,12 @@ The project is still in its infancy and your contributions would have a big impa
 5. Commence a Pull Request
 
 ## License
-HeyBilly v2 is licensed under the MIT License. Consult `LICENSE` for complete terms.
+HeyBilly is licensed under the MIT License. Consult `LICENSE` for complete terms.
 
 ## Stay Connected
 - Twitter: [@zanehelton](https://twitter.com/zanehelton)
-- GitHub URL: [HeyBilly v2 on GitHub](https://github.com/ZaneH/HeyBilly-v2)
+- GitHub URL: [HeyBilly on GitHub](https://github.com/ZaneH/HeyBilly)
 
 ---
 
-🌟 Enjoying HeyBilly v2? Show your support with a star!
+🌟 Enjoying HeyBilly? Show your support with a star!
