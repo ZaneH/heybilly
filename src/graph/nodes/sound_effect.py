@@ -5,6 +5,12 @@ class SoundEffectNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
 
     async def execute(self, input_data=None):
+        if type(input_data) != str:
+            raise Exception(
+                f"Input data must be a string. Got {type(input_data)}")
+
+        self.data['video_url'] = input_data
+
         self.send_node_to_queue()
 
         return True
