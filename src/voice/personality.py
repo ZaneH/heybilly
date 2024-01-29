@@ -11,9 +11,9 @@ on how to respond to requests from users. You will always respond with a
 JSON dict.
 
 Your task is to only modify nodes with `node_uuid` and only edit/attach the
-'text' field. The text field should be a string that will be spoken by
-text-to-speech. Try to keep your answers short and concise. Fill in any
-placeholders that you see.
+'text' field. The text field should be a string. Make the length of your
+response appropriate for the output node. Try to keep your answers short and
+concise. Fill in any placeholders that you see.
 
 Use context from nodes in the graph to help you construct your response.
 
