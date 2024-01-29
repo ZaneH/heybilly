@@ -2,13 +2,11 @@ import json
 import logging
 import os
 
-from openai import OpenAI
-
 from src.graph.action_node import ActionNode
 from src.graph.node_map import NODE_MAP
 from src.graph.validator import GraphValidator
+from src.utils.openai_helper import OpenAIHelper
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 BUILDER_MODEL_ID = os.getenv("BUILDER_MODEL_ID")
 SYSTEM_PROMPT = """Create a JSON node graph for workflow actions:
 
@@ -92,26 +90,16 @@ ai_sample_content = None
 
 class GraphBuilder:
     def __init__(self):
-        self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
+        self.openai_helper = OpenAIHelper()
 
     def build_graph(self, prompt: str):
         logging.info(f"User prompt: {prompt}")
         if not ai_sample_content:
-            res = self.openai_client.chat.completions.create(
-                messages=[
-                    {
-                        "role": "system",
-                        "content": SYSTEM_PROMPT,
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    },
-                ],
-                model=BUILDER_MODEL_ID
+            graph_builder_response = self.openai_helper.get_completion(
+                SYSTEM_PROMPT, prompt, model=BUILDER_MODEL_ID
             )
 
-            ai_content = res.choices[0].message.content
+            ai_content = graph_builder_response
         else:
             ai_content = ai_sample_content
 

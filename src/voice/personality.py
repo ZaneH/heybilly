@@ -1,9 +1,8 @@
 import logging
 import os
 
-from openai import OpenAI
+from src.utils.openai_helper import OpenAIHelper
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 PERSONALITY_MODEL_ID = os.getenv('PERSONALITY_MODEL_ID')
 
 SYSTEM_PROMPT = """Your job is to be a home assistant. You are trained
@@ -35,21 +34,10 @@ edits: [
 
 class Personality:
     def __init__(self) -> None:
-        self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
+        self.openai_helper = OpenAIHelper()
 
     def suggest_edits(self, prompt: str) -> str:
-        logging.info("🗣️ Adding personality")
-        res = self.openai_client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT,
-                },
-                {
-                    "role": "user",
-                    "content": prompt,
-                },
-            ], model=PERSONALITY_MODEL_ID
+        logging.info("🗣️ Requesting personality")
+        return self.openai_helper.get_completion(
+            SYSTEM_PROMPT, prompt, model=PERSONALITY_MODEL_ID
         )
-
-        return res.choices[0].message.content
