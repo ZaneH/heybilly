@@ -3,7 +3,7 @@ from src.graph.action_node import ActionNode
 
 class DiscordPostNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
-    needs_uuid = True
+    can_add_personality = True
 
     async def execute(self, input_data=None):
         new_text = ""

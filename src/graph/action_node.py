@@ -51,7 +51,7 @@ class ActionNode:
     - is_blocking: Whether the node is blocking
     """
     create_queue = True  # Should a RabbitMQ queue be created for this node?
-    needs_uuid = False  # For nodes that need to be uniquely identified
+    can_add_personality = False  # Should personality ever be added to this node?
 
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id
@@ -133,6 +133,7 @@ class ActionNode:
         # Helper method to get the IDs of the output nodes
         return [node.node_id for node in self.outputs]
 
+    # Being used for OpenAI serialization
     def to_json(self, with_uuid=False):
         # Convert the node to a JSON-serializable dictionary
         object = {
@@ -153,7 +154,7 @@ class ActionNode:
         if data:
             object['data'] = data
 
-        if with_uuid and self.needs_uuid:
+        if with_uuid and self.can_add_personality:
             object['node_uuid'] = self.node_uuid
 
         return object
