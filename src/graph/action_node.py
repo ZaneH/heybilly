@@ -67,14 +67,16 @@ class ActionNode:
         return None
 
     async def process(self, input_data=None):
-        await self.graph_processor.start_node(self)
+        should_execute = await self.graph_processor.start_node(self)
+        if not should_execute:
+            return
 
         async def execute_wrapper():
             if input_data is None:
                 logging.info(f"- Running {self.node_type}.")
             else:
                 logging.info(
-                    f"- Running {self.node_type}")
+                    f"- Running {self.node_type} with input data.")
                 logging.info(f"{self}")
 
             return await self.execute(input_data)

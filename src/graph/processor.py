@@ -94,13 +94,22 @@ class GraphProcessor:
             logging.warning(f"Edits string: {edits_str}")
             raise e
 
-    async def start_node(self, node):
+    async def start_node(self, node) -> bool:
+        """
+        Start the given node if it hasn't already been executed.
+
+        :param node: The node to start.
+        :return: True if the node was started, False if it was already executed.
+        """
         async with self.lock:
             if node.node_uuid not in self.executed_nodes:
                 self.active_branches += 1
                 self.executed_nodes.add(node.node_uuid)
+
+                return True
             else:
                 logging.debug(f"Node {node.node_uuid} was already executed.")
+                return False
 
     async def finish_node(self, node):
         async with self.lock:
