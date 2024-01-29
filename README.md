@@ -94,6 +94,36 @@ HeyBilly v2 is designed with developers in mind. Explore the depths of HeyBilly'
 
 We encourage developers to delve into our comprehensive guides and contribute to the evolution of HeyBilly v2.
 
+### Built-in Nodes
+
+HeyBilly v2 is equipped with a diverse set of built-in nodes, each designed to perform specific tasks seamlessly. Here's an overview of the nodes you can utilize within your workflows:
+
+### Input & Output Nodes
+- **input.voice**: Captures voice commands from the user.
+- **user_text_prompt**: Prompts the user for text input.
+- **output.tts**: Converts text into spoken voice in the chat.
+
+### Social Media & Communication Nodes
+- **twitter.post**: Posts messages to Twitter.
+- **discord.post**: Sends messages or content to Discord channels.
+
+### Information & Data Nodes
+- **wolfram.simple**: Fetches and provides data from Wolfram Alpha, including weather, stocks, and more.
+- **hn.top**: Retrieves top stories from Hacker News.
+- **giphy.search**: Finds and posts GIFs based on specified search criteria.
+
+### Multimedia & Entertainment Nodes
+- **youtube.search**: Searches for YouTube videos based on user queries.
+- **youtube.play**: Plays a specified YouTube video.
+- **sfx.play**: Plays a short sound effect.
+- **pexels.search**: Searches for images via the Pexels API.
+
+### Utility Nodes
+- **volume.set**: Adjusts the volume level of the bot in voice channels.
+- **done**: Marks the completion of the workflow in the graph.
+
+These nodes are the building blocks of HeyBilly v2, allowing users to create versatile and interactive voice command workflows. Create your own nodes and create a PR!
+
 ## Contributions
 We invite you to collaborate, innovate, and share in the creation of HeyBilly v2. Your unique contributions foster the advancement of this open-source community.
 
