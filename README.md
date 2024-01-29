@@ -10,7 +10,7 @@ Consider setting up the [Discord bot](https://github.com/ZaneH/heybilly-v2-disco
 ### Real-Time Insights 🌍
 Stay connected to real-time data with HeyBilly's precise updates.
 - You: "Hey Billy, could you provide the weather forecast for New York?"
-- You: "Hey Billy, I need the latest valuation of Ethereum."
+- You: "Hey Billy, post the price of Ethereum to Discord."
 - You: "Hey Billy, post the NFL player with the most touchdowns in Discord."
 
 ### Symphony of Sounds 🎵
