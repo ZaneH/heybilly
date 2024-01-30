@@ -12,6 +12,7 @@ Stay connected to real-time data with HeyBilly's precise updates.
 - You: "Hey Billy, could you provide the weather forecast for New York?"
 - You: "Hey Billy, post the price of Ethereum to Discord."
 - You: "Hey Billy, post the NFL player with the most touchdowns in Discord."
+- You: "Hey Billy, post the top stories from Hacker News to Discord."
 
 ### Symphony of Sounds 🎵
 Dictate your auditory experience with intuitive voice controls.
@@ -65,11 +66,11 @@ Install Python packages:
 pip install -r requirements.txt
 ```
 
-### Configuration of Environment Variables
-Evolve `.env.sample` into `.env` and meticulously input your distinct API credentials.
-
 ### Train Your Model With Fine-Tuning
 Go to https://platform.openai.com/finetune, and create a job for `gpt-3.5-turbo-1106` with each file in `./fine_tune_data`. Update your `.env` file with your new MODEL_IDs once the jobs are complete.
+
+### Configuration of Environment Variables
+Move `.env.sample` to `.env` and fill in the necessary values. You'll need the fine-tuned model IDs from the previous step.
 
 ### Run RabbitMQ
 Start the RabbitMQ container:

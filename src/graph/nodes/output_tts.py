@@ -1,4 +1,4 @@
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
 from src.third_party.streamelements import StreamElementsTTS
 from src.utils.audio_player import LocalAudioPlayer
@@ -8,6 +8,8 @@ from src.utils.config import CLIArgs
 class OutputTTSNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
     can_add_personality = True
+
+    input_data_type = DataTypes.STRING
 
     async def execute(self, input_data=None):
         self.graph_processor.add_personality()

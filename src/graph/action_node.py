@@ -4,39 +4,20 @@ from tenacity import retry, wait_fixed, stop_after_attempt, before_sleep_log
 import logging
 
 from src.utils.random import random_id
-from src.utils.config import CLIArgs
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
-async def retry_handler(func, *args, **kwargs):
+class DataTypes:
     """
-    Retry handler that applies the retry strategy to the provided function.
+    Enum for the different types of data that can be passed between nodes.
     """
-    retrying_func = retry_strategy(func)
-    return await retrying_func(*args, **kwargs)
-
-
-def log_custom_message(retry_state):
-    attempt_number = retry_state.attempt_number
-    log.debug(
-        f"Attempt {attempt_number}: Retrying node in {retry_state.next_action.sleep} seconds")
-
-
-def handle_retry_error(retry_state):
-    log.error(
-        f"Error prcessing node after {retry_state.attempt_number} attempts")
-    log.error(retry_state.outcome.exception())
-    return retry_state.outcome.result()
-
-
-retry_strategy = retry(
-    wait=wait_fixed(2),
-    stop=stop_after_attempt(3),
-    before_sleep=log_custom_message,
-    retry_error_callback=handle_retry_error
-)
+    OBJECT = "object"
+    STRING = "string"
+    URL = "url"
+    NONE = "none"
+    BOOL = "bool"
 
 
 class ActionNode:
@@ -53,6 +34,9 @@ class ActionNode:
     """
     create_queue = True  # Should a RabbitMQ queue be created for this node?
     can_add_personality = False  # Should personality ever be added to this node?
+
+    input_data_type = DataTypes.NONE  # The type of data that this node expects
+    output_data_type = DataTypes.NONE  # The type of data that this node outputs
 
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id
@@ -173,3 +157,32 @@ class ActionNode:
         node_dict.pop('outputs', None)
 
         return node_dict
+
+
+async def retry_handler(func, *args, **kwargs):
+    """
+    Retry handler that applies the retry strategy to the provided function.
+    """
+    retrying_func = retry_strategy(func)
+    return await retrying_func(*args, **kwargs)
+
+
+def log_custom_message(retry_state):
+    attempt_number = retry_state.attempt_number
+    log.debug(
+        f"Attempt {attempt_number}: Retrying node in {retry_state.next_action.sleep} seconds")
+
+
+def handle_retry_error(retry_state):
+    log.error(
+        f"Error prcessing node after {retry_state.attempt_number} attempts")
+    log.error(retry_state.outcome.exception())
+    return retry_state.outcome.result()
+
+
+retry_strategy = retry(
+    wait=wait_fixed(2),
+    stop=stop_after_attempt(3),
+    before_sleep=log_custom_message,
+    retry_error_callback=handle_retry_error
+)

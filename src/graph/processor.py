@@ -40,6 +40,7 @@ class GraphProcessor:
         except Exception as e:
             logging.error(f"Error processing graph: {e}")
             logging.error(self.graph)
+            raise e
 
     @retry_strategy
     def add_personality(self):
