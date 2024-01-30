@@ -1,9 +1,20 @@
+import argparse
 import asyncio
 import logging
-import argparse
 
 from dotenv import load_dotenv
+
+from src.utils.config import CLIArgs
+
 load_dotenv()
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '--verbose', help='Enable verbose logging', action='store_true')
+parser.add_argument(
+    '--discord-tts', help='Play text-to-speech through Discord bot rather than computer audio', action='store_true')
+
+args = parser.parse_args()
 
 
 async def main():
@@ -22,9 +33,11 @@ async def main():
                 rabbit_client.create_queue(node_type)
 
         # Used for logging and easily fine-tuning the AI
-        args = {'x-max-length': 10}
-        rabbit_client.create_queue("ai.builder.responses", arguments=args)
-        rabbit_client.create_queue("ai.personality.responses", arguments=args)
+        queue_args = {'x-max-length': 10}
+        rabbit_client.create_queue(
+            "ai.builder.responses", arguments=queue_args)
+        rabbit_client.create_queue(
+            "ai.personality.responses", arguments=queue_args)
 
     create_queues()
 
@@ -32,12 +45,11 @@ async def main():
     await listener.start()
 
 
-def configure_logging():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--verbose', help='Enable verbose logging', action='store_true')
-    args = parser.parse_args()
+def load_config():
+    CLIArgs.use_discord_tts = args.discord_tts
 
+
+def configure_logging():
     logging.getLogger('httpx').setLevel(logging.WARNING)
     logging.getLogger('asyncio').setLevel(logging.WARNING)
     logging.getLogger('aio_pika').setLevel(logging.WARNING)
@@ -55,5 +67,7 @@ def configure_logging():
 
 
 if __name__ == "__main__":
+    load_config()
     configure_logging()
+
     asyncio.run(main())

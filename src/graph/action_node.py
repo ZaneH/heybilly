@@ -4,6 +4,7 @@ from tenacity import retry, wait_fixed, stop_after_attempt, before_sleep_log
 import logging
 
 from src.utils.random import random_id
+from src.utils.config import CLIArgs
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)

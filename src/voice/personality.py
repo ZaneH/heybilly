@@ -15,7 +15,7 @@ response appropriate for the output node. Try to keep your answers short and
 concise. Your output for each node will be given directly to the user, you
 must fill in any placeholders with the correct data by using data from
 previous nodes. Especially make sure that `output.tts` nodes have all the
-info a user would expect to hear back.
+info a user would expect to hear back. Do not add URLs to the `output.tts`.
 
 Example output:
 ```

@@ -1,6 +1,8 @@
 from src.graph.action_node import ActionNode
 from src.third_party.streamlabs import StreamlabsTTS, StreamlabsVoice
 from src.third_party.streamelements import StreamElementsTTS
+from src.utils.audio_player import LocalAudioPlayer
+from src.utils.config import CLIArgs
 
 
 class OutputTTSNode(ActionNode):
@@ -19,7 +21,11 @@ class OutputTTSNode(ActionNode):
         tts_url = StreamElementsTTS(StreamlabsVoice.Justin).get_url(text)
         self.data['tts_url'] = tts_url
 
-        self.send_node_to_queue()
+        if CLIArgs.use_discord_tts:
+            self.send_node_to_queue()
+        else:
+            player = LocalAudioPlayer()
+            player.play_stream(tts_url)
 
         return text
 
