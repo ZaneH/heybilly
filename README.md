@@ -147,11 +147,11 @@ The project is still in its infancy and your contributions would have a big impa
 - [ ] Play TTS response if the graph fails completely
 - [ ] Figure out how the `validate_inputs` function could be useful (currently unused)
 - [ ] Improve speed of voice transcription (VAD, etc.)
-- [ ] Play TTS through computer if the user doesn't want to use the Discord bot
 - [ ] Add more built-in nodes (Decision node, etc.)
 - [ ] ~~Add user_text_prompt node~~ (In progress)
 - [ ] Feed previous request into next request (e.g. "What is the weather in New York?" -> "What about the time?")
 - [ ] Separate Rabbit data from RAG data
+- [x] Play TTS through computer if the user doesn't want to use the Discord bot
 
 #### Low Priority
 

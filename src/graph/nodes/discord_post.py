@@ -5,7 +5,7 @@ class DiscordPostNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
     can_add_personality = True
 
-    input_data_type = {DataTypes.URL, DataTypes.STRING}
+    input_data_type = {DataTypes.URL, DataTypes.STRING, DataTypes.OBJECT}
     output_data_type = {DataTypes.NONE}
 
     async def execute(self, input_data=None):
