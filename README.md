@@ -31,8 +31,9 @@ Unlock a world of leisure with an array of engaging commands.
 
 ### Articulate Interactions 🗣️
 Experience dynamic interactions with HeyBilly's advanced Text-to-Speech feature.
-
-- Currently only available for Discord.
+You have the option to play TTS through your computer's audio (default) or
+through the Discord bot.
+- **Note:** FFmpeg is required to play TTS through your computer's audio.
 
 ## Preview
 
@@ -84,11 +85,18 @@ docker run --rm -d --hostname heybilly-rabbit \
 Start HeyBilly:
 
 ```bash
-python main.py # you can add --verbose
+python main.py
 ```
 
 ## Usage
-HeyBilly is in a phase of continuous enhancement. This section will be updated shortly.
+
+Run the `main.py` script with optional flags to customize behavior:
+
+- **Help:** `python main.py --help`
+- **Verbose Logging:** `python main.py --verbose` (provides detailed logs)
+- **Discord Text-to-Speech:** `python main.py --discord-tts` (plays TTS through Discord; defaults to computer audio if omitted)
+
+Combine flags as needed, e.g., `python main.py --verbose --discord-tts`.
 
 ## For Developers 🛠️
 HeyBilly is designed with developers in mind. Explore the depths of HeyBilly's architecture, understand the "graph lifecycle", and contribute to its growth:
