@@ -1,8 +1,10 @@
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 
 
 class TwitterPostNode(ActionNode):
     create_queue = False
+
+    input_data_type = {DataTypes.URL, DataTypes.STRING}
 
     async def execute(self, input_data=None):
         pass

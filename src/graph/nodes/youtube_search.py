@@ -10,8 +10,9 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 class YouTubeSearchNode(ActionNode):
     create_queue = False
-    input_data_type = DataTypes.STRING
-    output_data_type = DataTypes.URL
+
+    input_data_type = {DataTypes.STRING}
+    output_data_type = {DataTypes.URL}
 
     async def execute(self, input_data=None):
         client = Client(api_key=GOOGLE_API_KEY)

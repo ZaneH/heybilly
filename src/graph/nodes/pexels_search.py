@@ -1,13 +1,16 @@
 import os
 import random
 from pexels_api import API as PexelsAPI
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 
 PEXELS_API_KEY = os.getenv('PEXELS_API_KEY')
 
 
 class PexelsSearchNode(ActionNode):
     create_queue = False
+
+    input_data_type = {DataTypes.STRING}
+    output_data_type = {DataTypes.URL}
 
     async def execute(self, input_data=None):
         client = PexelsAPI(PEXELS_API_KEY)

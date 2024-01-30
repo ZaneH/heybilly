@@ -1,9 +1,12 @@
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 
 
 class DiscordPostNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
     can_add_personality = True
+
+    input_data_type = {DataTypes.URL, DataTypes.STRING}
+    output_data_type = {DataTypes.NONE}
 
     async def execute(self, input_data=None):
         new_text = ""
@@ -25,8 +28,6 @@ class DiscordPostNode(ActionNode):
         self.graph_processor.add_personality()
 
         self.send_node_to_queue()
-
-        return True
 
     def validate_inputs(self) -> bool:
         """

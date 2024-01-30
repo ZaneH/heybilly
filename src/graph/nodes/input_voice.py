@@ -1,8 +1,10 @@
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 
 
 class InputVoiceNode(ActionNode):
     create_queue = False
+
+    output_data_type = {DataTypes.STRING}
 
     async def execute(self, input_data=None):
         return getattr(self.data, 'text', None)

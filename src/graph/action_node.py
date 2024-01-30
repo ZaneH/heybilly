@@ -35,8 +35,10 @@ class ActionNode:
     create_queue = True  # Should a RabbitMQ queue be created for this node?
     can_add_personality = False  # Should personality ever be added to this node?
 
-    input_data_type = DataTypes.NONE  # The type of data that this node expects
-    output_data_type = DataTypes.NONE  # The type of data that this node outputs
+    # The type of data that this node expects
+    input_data_type = {DataTypes.NONE}
+    # The type of data that this node outputs
+    output_data_type = {DataTypes.NONE}
 
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id

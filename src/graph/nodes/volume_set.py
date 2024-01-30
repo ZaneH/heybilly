@@ -7,8 +7,6 @@ class VolumeSetNode(ActionNode):
     async def execute(self, input_data=None):
         self.send_node_to_queue()
 
-        return True
-
     def validate_inputs(self) -> bool:
         """
         Validate that value was provided in the data field

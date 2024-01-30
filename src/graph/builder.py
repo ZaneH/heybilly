@@ -4,7 +4,7 @@ import os
 
 from src.graph.action_node import ActionNode
 from src.graph.node_map import NODE_MAP
-from src.graph.validator import GraphValidator, NodeValidationError
+from src.graph.validator import GraphValidator, NodeIOValidationError
 from src.utils.openai_helper import OpenAIHelper
 
 BUILDER_MODEL_ID = os.getenv("BUILDER_MODEL_ID")
@@ -142,7 +142,7 @@ class GraphBuilder:
             GraphValidator.validate_node_io(nodes)
 
             return nodes
-        except NodeValidationError as e:
+        except NodeIOValidationError as e:
             logging.debug("Error validating node connections.")
             logging.debug(e)
             raise e

@@ -6,12 +6,14 @@ from datetime import datetime, timedelta
 
 import numpy as np
 import speech_recognition as sr
-from tenacity import before_sleep_log, retry, stop_after_attempt, wait_exponential
 import torch
 import whisper
+from tenacity import (before_sleep_log, retry, stop_after_attempt,
+                      wait_exponential)
 
 from src.graph.builder import GraphBuilder
 from src.graph.processor import GraphProcessor
+from src.graph.validator import NodeIOValidationError, NodeTypeValidationError
 
 # Heavily based on davabase/whisper_real_time for real time transcription
 # https://github.com/davabase/whisper_real_time/tree/master
@@ -70,13 +72,18 @@ class Listen():
             # Start processing the graph
             await processor.start()
 
-        except ValueError as e:
-            logging.error(f"Graph validation error: {e}")
-            raise  # Important: Re-raise the exception to trigger the retry
-        except Exception as e:
+        except NodeIOValidationError:
+            logging.error(f"Node IO validation error")
+            raise
+        except NodeTypeValidationError:
+            logging.error(f"Node validation error")
+            raise
+        except ValueError:
+            logging.error(f"Graph validation error")
+            raise
+        except Exception:
             logging.error("Error creating and processing graph")
-            logging.error(e)
-            raise  # Important: Re-raise the exception to trigger the retry
+            raise
 
     def stop(self):
         self.should_stop = True

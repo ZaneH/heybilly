@@ -3,13 +3,16 @@ import random
 
 import giphy_client
 
-from src.graph.action_node import ActionNode
+from src.graph.action_node import ActionNode, DataTypes
 
 GIPHY_API_KEY = os.getenv('GIPHY_API_KEY')
 
 
 class GiphySearchNode(ActionNode):
     create_queue = False
+
+    input_data_type = {DataTypes.STRING}
+    output_data_type = {DataTypes.URL}
 
     async def execute(self, input_data=None):
         query = self.data['query']

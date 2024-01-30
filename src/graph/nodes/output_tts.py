@@ -9,7 +9,7 @@ class OutputTTSNode(ActionNode):
     create_queue = True  # Initially will be used for the Discord bot
     can_add_personality = True
 
-    input_data_type = DataTypes.STRING
+    input_data_type = {DataTypes.STRING}
 
     async def execute(self, input_data=None):
         self.graph_processor.add_personality()
