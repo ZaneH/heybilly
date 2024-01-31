@@ -56,6 +56,29 @@ class CommandLine:
             help="Play text-to-speech through Discord bot rather than computer audio"
         )
 
+        live_args = parser.add_argument_group("Live transcribe options")
+
+        live_args.add_argument(
+            "--live_volume_threshold",
+            type=float,
+            default=0.01,
+            help="Minimum volume threshold to activate listening in live transcribe mode",
+        )
+
+        live_args.add_argument(
+            "--live_input_device",
+            type=int,
+            default=None,
+            help="Set live stream input device ID (see python -m sounddevice for a list)",
+        )
+
+        parser.add_argument(
+            "--version",
+            action="version",
+            version="%(prog)s {version}".format(version=__version__),
+            help="Show program's version number and exit",
+        )
+
         model_args = parser.add_argument_group("Model selection options")
 
         model_args.add_argument(
@@ -318,29 +341,6 @@ class CommandLine:
             type=int,
             default=None,
             help="When `vad_filter` is enabled, in the end of each speech chunk time to wait before separating it.",
-        )
-
-        parser.add_argument(
-            "--version",
-            action="version",
-            version="%(prog)s {version}".format(version=__version__),
-            help="Show program's version number and exit",
-        )
-
-        live_args = parser.add_argument_group("Live transcribe options")
-
-        live_args.add_argument(
-            "--live_volume_threshold",
-            type=float,
-            default=0.01,
-            help="Minimum volume threshold to activate listening in live transcribe mode",
-        )
-
-        live_args.add_argument(
-            "--live_input_device",
-            type=int,
-            default=None,
-            help="Set live stream input device ID (see python -m sounddevice for a list)",
         )
 
         return parser.parse_args()
