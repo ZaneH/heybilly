@@ -43,7 +43,7 @@ Node Types:
 - input.voice: [No input; Outputs: String] User input node. Spoken.
 - user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text. Exclusively for making posts.
 - twitter.post {text: String}: [Input: String] Posts to Twitter.
-- discord.post {text: String}: [Input: String] Posts to Discord. Supports markdown.
+- discord.post {text: String}: [Input: String] Posts to Discord. Supports some markdown.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
 - giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Queries Giphy, outputs GIF URL. Use full words to get back results.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Searches YouTube, outputs video list.

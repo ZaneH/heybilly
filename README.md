@@ -86,6 +86,7 @@ docker run --rm -d --hostname heybilly-rabbit \
 Start HeyBilly:
 
 ```bash
+python main.py --help # get help message
 python main.py
 ```
 
@@ -94,10 +95,10 @@ python main.py
 Run the `main.py` script with optional flags to customize behavior:
 
 - **Help:** `python main.py --help`
-- **Verbose Logging:** `python main.py --verbose` (provides detailed logs)
-- **Discord Text-to-Speech:** `python main.py --discord-tts` (plays TTS through Discord; defaults to computer audio if omitted)
+- **Verbose Logging:** `python main.py --verbose true` (provides detailed logs)
+- **Discord Text-to-Speech:** `python main.py --discord-tts true` (plays TTS through Discord; defaults to computer audio if omitted)
 
-Combine flags as needed, e.g., `python main.py --verbose --discord-tts`.
+Combine flags as needed, e.g., `python main.py --verbose true --discord-tts true`.
 
 ## For Developers 🛠️
 HeyBilly is designed with developers in mind. Explore the depths of HeyBilly's architecture, understand the "graph lifecycle", and contribute to its growth:
@@ -146,11 +147,11 @@ The project is still in its infancy and your contributions would have a big impa
 - [ ] Add more fine-tuning data
 - [ ] Play TTS response if the graph fails completely
 - [ ] Figure out how the `validate_inputs` function could be useful (currently unused)
-- [ ] Improve speed of voice transcription (VAD, etc.)
 - [ ] Add more built-in nodes (Decision node, etc.)
 - [ ] ~~Add user_text_prompt node~~ (In progress)
 - [ ] Feed previous request into next request (e.g. "What is the weather in New York?" -> "What about the time?")
 - [ ] Separate Rabbit data from RAG data
+- [x] Improve speed of voice transcription (VAD, etc.)
 - [x] Play TTS through computer if the user doesn't want to use the Discord bot
 
 #### Low Priority
