@@ -1,12 +1,13 @@
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 
 class DiscordPostNode(ActionNode):
-    create_queue = True  # Initially will be used for the Discord bot
+    create_queue = True
     can_add_personality = True
 
-    input_data_type = {DataTypes.URL, DataTypes.STRING, DataTypes.OBJECT}
-    output_data_type = {DataTypes.NONE}
+    # None = Any data type is accepted
+    input_data_type = {NodeIODataType.NONE}
+    output_data_type = {NodeIODataType.NONE}
 
     async def execute(self, input_data=None):
         new_text = ""

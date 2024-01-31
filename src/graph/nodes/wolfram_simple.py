@@ -1,6 +1,6 @@
 import os
 import wolframalpha
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 WOLFRAM_APP_ID = os.getenv('WOLFRAM_APP_ID')
 
@@ -8,8 +8,8 @@ WOLFRAM_APP_ID = os.getenv('WOLFRAM_APP_ID')
 class WolframSimpleNode(ActionNode):
     create_queue = False
 
-    input_data_type = {DataTypes.STRING}
-    output_data_type = {DataTypes.STRING}
+    input_data_type = {NodeIODataType.STRING}
+    output_data_type = {NodeIODataType.STRING}
 
     async def execute(self, input_data=None):
         query = self.data['query']

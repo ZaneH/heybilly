@@ -1,11 +1,11 @@
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 
 class MusicControlNode(ActionNode):
     create_queue = True
 
-    input_data_type = {DataTypes.NONE}
-    output_data_type = {DataTypes.NONE}
+    input_data_type = {NodeIODataType.NONE}
+    output_data_type = {NodeIODataType.NONE}
 
     async def execute(self, input_data=None):
         self.send_node_to_queue()

@@ -1,4 +1,4 @@
-from src.graph.action_node import DataTypes
+from src.graph.action_node import NodeIODataType
 
 from src.graph.node_map import NODE_MAP
 
@@ -51,4 +51,4 @@ class GraphValidator:
 
     @staticmethod
     def is_data_type_compatible(output_data_types, input_data_types):
-        return bool(output_data_types & input_data_types) or DataTypes.NONE in output_data_types or DataTypes.NONE in input_data_types
+        return bool(output_data_types & input_data_types) or NodeIODataType.NONE in output_data_types or NodeIODataType.NONE in input_data_types

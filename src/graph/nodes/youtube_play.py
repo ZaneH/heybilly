@@ -1,11 +1,11 @@
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 
 class YouTubePlayNode(ActionNode):
     create_queue = True
 
-    input_data_type = {DataTypes.URL}
-    output_data_type = {DataTypes.NONE}
+    input_data_type = {NodeIODataType.URL}
+    output_data_type = {NodeIODataType.NONE}
 
     async def execute(self, input_data=None):
         if type(input_data) != str:

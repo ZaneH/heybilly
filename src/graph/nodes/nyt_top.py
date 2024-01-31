@@ -1,12 +1,12 @@
 import feedparser
 
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 
 class NYTTopNode(ActionNode):
     create_queue = False
 
-    output_data_type = {DataTypes.OBJECT}
+    output_data_type = {NodeIODataType.OBJECT}
 
     async def execute(self, input_data=None):
         feed = feedparser.parse(

@@ -78,17 +78,19 @@ class Listen():
             # Start processing the graph
             await processor.start()
 
-        except NodeIOValidationError:
-            logging.error(f"Node IO validation error")
+        except NodeIOValidationError as e:
+            logging.error(e)
             raise
-        except NodeTypeValidationError:
-            logging.error(f"Node validation error")
+        except NodeTypeValidationError as e:
+            logging.error(e)
             raise
         except ValueError:
             logging.error(f"Graph validation error")
+            logging.error(graph)
             raise
         except Exception:
             logging.error("Error creating and processing graph")
+            logging.error(graph)
             raise
 
     def stop(self):

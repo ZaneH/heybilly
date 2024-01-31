@@ -3,7 +3,7 @@ import random
 
 from pyyoutube import Client
 
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
@@ -11,8 +11,8 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 class YouTubeSearchNode(ActionNode):
     create_queue = False
 
-    input_data_type = {DataTypes.STRING}
-    output_data_type = {DataTypes.URL}
+    input_data_type = {NodeIODataType.STRING}
+    output_data_type = {NodeIODataType.URL}
 
     async def execute(self, input_data=None):
         client = Client(api_key=GOOGLE_API_KEY)

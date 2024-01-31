@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
-class DataTypes:
+class NodeIODataType:
     """
     Enum for the different types of data that can be passed between nodes.
     """
@@ -36,9 +36,9 @@ class ActionNode:
     can_add_personality = False  # Should personality ever be added to this node?
 
     # The type of data that this node expects
-    input_data_type = {DataTypes.NONE}
+    input_data_type = {NodeIODataType.NONE}
     # The type of data that this node outputs
-    output_data_type = {DataTypes.NONE}
+    output_data_type = {NodeIODataType.NONE}
 
     def __init__(self, node_id, node_type, inputs=[], outputs=[]):
         self.node_id = node_id

@@ -1,13 +1,13 @@
 import feedparser
 
-from src.graph.action_node import ActionNode, DataTypes
+from src.graph.action_node import ActionNode, NodeIODataType
 
 
 class HNTopNode(ActionNode):
     create_queue = False
 
-    input_data_type = {DataTypes.NONE}
-    output_data_type = {DataTypes.OBJECT}
+    input_data_type = {NodeIODataType.NONE}
+    output_data_type = {NodeIODataType.OBJECT}
 
     async def execute(self, input_data=None):
         feed = feedparser.parse('https://hnrss.org/frontpage')
