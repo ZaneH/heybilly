@@ -59,7 +59,7 @@ class Listen():
     async def create_and_process_graph(self, processed_line):
         try:
             graph = self.builder.build_graph(processed_line)
-            self.rabbit_client.send_ai_response(
+            self.rabbit_client.log_ai_response(
                 "ai.builder.responses", json.dumps({
                     "input": processed_line,
                     "output": json.loads(graph)

@@ -56,7 +56,7 @@ class GraphProcessor:
         output = self.personality.suggest_edits(personality_input)
         self.apply_edits_to_graph(output)
 
-        self.rabbit_client.send_ai_response(
+        self.rabbit_client.log_ai_response(
             "ai.personality.responses", json.dumps({
                 "input": json.loads(personality_input),
                 "output": json.loads(output)
