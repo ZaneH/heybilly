@@ -167,7 +167,7 @@ class CommandLine:
         algorithm_args.add_argument(
             "--language",
             type=str,
-            default=None,
+            default="en",
             choices=sorted(LANGUAGES.keys())
             + sorted([k.title() for k in TO_LANGUAGE_CODE.keys()]),
             help="Language spoken in the audio, specify None to perform language detection",

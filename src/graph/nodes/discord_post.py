@@ -20,9 +20,6 @@ class DiscordPostNode(ActionNode):
         if new_text == "" and type(input_data) == str:
             new_text = input_data
 
-        if type(new_text) != str:
-            raise Exception("Input data must be a string")
-
         # Update the text in the graph before adding personality
         self.data['text'] = new_text
 

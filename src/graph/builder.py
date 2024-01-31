@@ -47,7 +47,7 @@ Node Types:
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
 - giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Queries Giphy, outputs GIF URL. Use full words to get back results.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Searches YouTube, outputs video list.
-- pexels.search {query: String, shuffle: Boolean}: [Input: String; Outputs: String] Search stock photos on Pexels, outputs image URL.
+- pexels.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Search stock photos on Pexels, outputs image URL.
 - youtube.play {video_id: String}: [Input: String] Plays YouTube video.
 - sfx.play {video_id: String}: [Input: String] Plays short sound effect for 5s.
 - output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using 'text'.
@@ -55,6 +55,7 @@ Node Types:
 - music.control {action: String}: [Input: String] Play/pause/stop music. Only: 'play', 'pause', or 'stop'.
 - hn.top: [No input; Outputs: Array] Outputs Top 10 Hacker News posts.
 - nyt.top: [No input; Outputs: Array] Outputs Top 10 New York Times posts.
+- tradingview.chart {symbol: String, interval: String}: [Input: String, String; Outputs: String] Outputs pre-filled TradingView URL for stocks and crypto.
 - done: [Input: Any] Marks workflow completion. 1 per graph.
 
 Workflow Examples:

@@ -21,7 +21,7 @@ class CLIArgs:
     compute_type = "auto"
 
     # Algorithm execution options
-    language = None
+    language = "en"
     temperature = 0
     temperature_increment_on_fallback = 0.2
     prompt_reset_on_temperature = 0.5
