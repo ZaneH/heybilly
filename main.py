@@ -50,6 +50,7 @@ def configure_logging():
     logging.getLogger('pika').setLevel(logging.WARNING)
     logging.getLogger('httpcore').setLevel(logging.WARNING)
     logging.getLogger('openai').setLevel(logging.WARNING)
+    logging.getLogger('faster_whisper').setLevel(logging.WARNING)
 
     if CLIArgs.verbose:
         logging.basicConfig(level=logging.DEBUG,

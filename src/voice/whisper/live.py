@@ -1,6 +1,6 @@
 # Based on code from https://github.com/Nikorasu/LiveWhisper/blob/main/livewhisper.py
 
-import asyncio
+import logging
 import numpy as np
 from src.voice.whisper.transcribe import Transcribe, TranscriptionOptions
 from typing import Union, List
@@ -124,8 +124,7 @@ class Live:
     def process(self):
         if len(self.buffers_to_process) > 0:
             _buffer = self.buffers_to_process.pop(0)
-            if self.verbose:
-                print("\n\033[90mTranscribing...\033[0m")
+            logging.debug("\n\033[90mTranscribing...\033[0m")
 
             if not self.transcribe:
                 self.transcribe = Transcribe(
@@ -149,9 +148,6 @@ class Live:
 
             if self.on_transcription_callback:
                 self.on_transcription_callback(result)
-
-            if not self.verbose:
-                print("")
 
     def inference(self):
         try:

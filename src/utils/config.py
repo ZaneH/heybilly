@@ -14,7 +14,7 @@ class CLIArgs:
     output_format = "all"
     pretty_json = False
     print_colors = False
-    verbose = True
+    verbose = False
 
     # Configuration options for highlighting words
     highlight_words = False

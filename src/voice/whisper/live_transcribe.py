@@ -119,7 +119,7 @@ class LiveTranscribe:
         self.task: str = CLIArgs.task
         self.device: str = CLIArgs.device
         self.compute_type: str = CLIArgs.compute_type
-        self.verbose: bool = True
+        self.verbose: bool = CLIArgs.verbose
         self.model_directory: str = CLIArgs.model_directory
         self.cache_directory: str = CLIArgs.model_dir
         self.device_index: Union[int, List[int]] = CLIArgs.device_index

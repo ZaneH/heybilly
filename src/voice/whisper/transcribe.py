@@ -120,9 +120,6 @@ class Transcribe:
         self,
         audio, task, language, verbose, live, options
     ):
-        # loop = asyncio.get_event_loop()
-        # result = await loop.run_in_executor(
-        #     None, self._inference, audio, task, language, verbose, live, options)
         result = self._inference(audio, task, language, verbose, live, options)
 
         if result and 'text' in result:

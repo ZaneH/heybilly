@@ -115,7 +115,7 @@ class CommandLine:
         outputs_args.add_argument(
             "--verbose",
             type=CommandLine()._str2bool,
-            default=True,
+            default=False,
             help="whether to print out the progress and debug messages",
         )
 
