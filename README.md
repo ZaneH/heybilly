@@ -17,10 +17,10 @@ Stay connected to real-time data with HeyBilly's precise updates.
 ### Symphony of Sounds 🎵
 Dictate your auditory experience with intuitive voice controls.
 - You: "Ok Billy, play Lo-Fi music."
-- You: "Ok Billy, could you play 'Bohemian Rhapsody' by Queen?"
+- You: "Ok Billy, could you play 'Hotel California' by The Eagles?"
 - You: "Ok Billy, reduce the volume slightly, please."
 - You: "Ok Billy, adjust the volume to level 5."
-- You: "Ok Billy, pause the playback."
+- You: "Ok Billy, pause the music."
 
 ### Portal to Entertainment 🎥
 Unlock a world of leisure with an array of engaging commands.
@@ -130,6 +130,7 @@ HeyBilly is equipped with a diverse set of built-in nodes, each designed to perf
 - **pexels.search**: Searches for images via the Pexels API.
 
 #### Multimedia Nodes
+- **music.control**: Controls the playback of music.
 - **youtube.play**: Plays a specified YouTube video.
 - **sfx.play**: Plays a short sound effect.
 
