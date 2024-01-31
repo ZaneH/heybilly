@@ -47,11 +47,14 @@ class Listen():
 
         # Create and process the graph
         try:
+            self.rabbit_client.send_status_update("processing")
             await self.create_and_process_graph(processed_line)
         except Exception as e:
             logging.error(
                 "Error creating and processing graph. Likely a previously unseen request.")
             logging.error(e)
+        finally:
+            self.rabbit_client.send_status_update("completed")
 
     @retry(wait=wait_exponential(multiplier=1, min=4, max=10),
            stop=stop_after_attempt(3),

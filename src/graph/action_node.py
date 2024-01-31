@@ -54,8 +54,11 @@ class ActionNode:
         return None
 
     async def process(self, input_data=None):
+        # De-dupe the node if it has already been processed
         should_execute = await self.graph_processor.start_node(self)
         if not should_execute:
+            logging.debug(
+                f"Skipping node because it already ran: {str(self)}")
             return
 
         async def execute_wrapper():

@@ -1,3 +1,4 @@
+import json
 import pika
 
 
@@ -22,3 +23,10 @@ class RabbitClient:
     def log_ai_response(self, queue_name: str, data: str):
         self.channel.basic_publish(
             exchange='', routing_key=queue_name, body=data)
+
+    def send_status_update(self, status: str):
+        self.channel.basic_publish(
+            exchange='', routing_key='request.status', body=json.dumps({
+                "status": status
+            })
+        )

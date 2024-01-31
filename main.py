@@ -31,6 +31,9 @@ def main():
         rabbit_client.create_queue(
             "ai.personality.responses", arguments=queue_args)
 
+        # Used to signal for thinking/idle
+        rabbit_client.create_queue("request.status", arguments=queue_args)
+
     create_queues()
 
     listener = Listen(rabbit_client)
