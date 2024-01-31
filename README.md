@@ -122,6 +122,7 @@ HeyBilly is equipped with a diverse set of built-in nodes, each designed to perf
 - **giphy.search**: Finds and posts GIFs based on specified search criteria.
 - **youtube.search**: Searches for YouTube videos based on user queries.
 - **pexels.search**: Searches for images via the Pexels API.
+- **tradingview.chart**: Fetches trading charts from TradingView.
 
 #### Multimedia Nodes
 - **music.control**: Controls the playback of music.
