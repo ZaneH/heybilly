@@ -92,7 +92,6 @@ class LiveTranscribe:
             self.model_dir,
             self.cache_directory,
             self.local_files_only,
-            self.task,
             self.language,
             self.threads,
             self.device,
@@ -111,12 +110,9 @@ class LiveTranscribe:
     def __init__(self, on_transcription_callback=None):
         self.on_transcription_callback = on_transcription_callback
 
-        self.output_dir: str = CLIArgs.output_dir
-        os.makedirs(self.output_dir, exist_ok=True)
         self.model: str = CLIArgs.model
         self.threads: int = CLIArgs.threads
         self.language: str = CLIArgs.language
-        self.task: str = CLIArgs.task
         self.device: str = CLIArgs.device
         self.compute_type: str = CLIArgs.compute_type
         self.verbose: bool = CLIArgs.verbose
@@ -132,26 +128,6 @@ class LiveTranscribe:
             self.language, self.model_directory, self.model)
         self.options = get_transcription_options()
 
-        word_options = ["highlight_words", "max_line_count", "max_line_width"]
-        if not self.options.word_timestamps:
-            for option in word_options:
-                if CLIArgs.__dict__[option]:
-                    sys.stderr.write(
-                        f"--{option} requires --word_timestamps True\n")
-                    return
-
-        if CLIArgs.max_line_count and not CLIArgs.max_line_width:
-            warnings.warn(
-                "--max_line_count has no effect without --max_line_width")
-
-        writer_options = list(word_options)
-        writer_options.append("pretty_json")
-
-        if not self.verbose and self.options.print_colors:
-            sys.stderr.write(
-                "You cannot disable verbose and enable print colors\n")
-            return
-
         if self.live_transcribe and not Live.is_available():
             Live.force_not_available_exception()
 
@@ -165,12 +141,6 @@ class LiveTranscribe:
                     "Detecting language using up to the first 30 seconds. Use `--language` to specify the language"
                 )
 
-        if self.options.print_colors and self.output_dir and not self.options.word_timestamps:
-            print(
-                "Print colors requires word-level time stamps. Generated files in output directory will have word-level timestamps"
-            )
-
-        self.output_dir = os.path.abspath(self.output_dir)
         if self.model_directory:
             model_filename = os.path.join(self.model_directory, "model.bin")
             if not os.path.exists(model_filename):

@@ -40,34 +40,47 @@ class CommandLine:
         parser = argparse.ArgumentParser(
             formatter_class=argparse.ArgumentDefaultsHelpFormatter
         )
+
+        # Billy arguments
         parser.add_argument(
-            "audio", nargs="*", type=str, help="audio file(s) to transcribe"
+            "--verbose",
+            type=CommandLine()._str2bool,
+            default=False,
+            help="Enable verbose logging"
+        )
+
+        parser.add_argument(
+            "--discord-tts",
+            type=CommandLine()._str2bool,
+            default=False,
+            help="Play text-to-speech through Discord bot rather than computer audio"
         )
 
         model_args = parser.add_argument_group("Model selection options")
 
         model_args.add_argument(
             "--model",
-            default="small",
+            default="medium",
             choices=MODEL_NAMES,
-            help="name of the Whisper model to use",
+            help="Name of the Whisper model to use",
         )
 
         model_args.add_argument(
             "--model_directory",
             type=str,
             default=None,
-            help="directory where to find a CTranslate2 Whisper model (e.g. fine-tuned model)",
+            help="Directory where to find a CTranslate2 Whisper model (e.g. fine-tuned model)",
         )
 
         caching_args = parser.add_argument_group(
-            "Model caching control options")
+            "Model caching control options"
+        )
 
         caching_args.add_argument(
             "--model_dir",
             type=str,
             default=None,
-            help="the path to save model files; uses ~/.cache/huggingface/ by default",
+            help="The path to save model files; uses ~/.cache/huggingface/ by default",
         )
 
         caching_args.add_argument(
@@ -77,76 +90,9 @@ class CommandLine:
             help="use models in cache without connecting to Internet to check if there are newer versions",
         )
 
-        outputs_args = parser.add_argument_group(
-            "Configuration options to control generated outputs"
-        )
-
-        outputs_args.add_argument(
-            "--output_dir",
-            "-o",
-            type=str,
-            default=".",
-            help="directory to save the outputs",
-        )
-        outputs_args.add_argument(
-            "--output_format",
-            "-f",
-            type=str,
-            default="all",
-            choices=["txt", "vtt", "srt", "tsv", "json", "all"],
-            help="format of the output file; if not specified, all available formats will be produced",
-        )
-
-        outputs_args.add_argument(
-            "--pretty_json",
-            "-p",
-            type=CommandLine()._str2bool,
-            default=False,
-            help="produce json in a human readable format",
-        )
-
-        outputs_args.add_argument(
-            "--print_colors",
-            type=CommandLine()._str2bool,
-            default=False,
-            help="print the transcribed text using an experimental color coding strategy to highlight words with high or low confidence",
-        )
-
-        outputs_args.add_argument(
-            "--verbose",
-            type=CommandLine()._str2bool,
-            default=False,
-            help="whether to print out the progress and debug messages",
-        )
-
-        # Billy arguments
-        # outputs_args.add_argument("--verbose", action='store_true',
-        #                           help="Enable verbose logging")
-        outputs_args.add_argument("--discord-tts", action='store_true',
-                                  help="Play text-to-speech through Discord bot rather than computer audio")
-
-        outputs_args.add_argument(
-            "--highlight_words",
-            type=CommandLine()._str2bool,
-            default=False,
-            help="underline each word as it is spoken in srt and vtt output formats (requires --word_timestamps True)",
-        )
-
-        outputs_args.add_argument(
-            "--max_line_width",
-            type=CommandLine()._optional_int,
-            default=None,
-            help="the maximum number of characters in a line before breaking the line in srt and vtt output formats (requires --word_timestamps True)",
-        )
-        outputs_args.add_argument(
-            "--max_line_count",
-            type=CommandLine()._optional_int,
-            default=None,
-            help="the maximum number of lines in a segment in srt and vtt output formats (requires --word_timestamps True)",
-        )
-
         computing_args = parser.add_argument_group(
-            "Computing configuration options")
+            "Computing configuration options"
+        )
 
         computing_args.add_argument(
             "--device",
@@ -194,13 +140,6 @@ class CommandLine:
         algorithm_args = parser.add_argument_group(
             "Algorithm execution options")
 
-        algorithm_args.add_argument(
-            "--task",
-            type=str,
-            default="transcribe",
-            choices=["transcribe", "translate"],
-            help="whether to perform X->X speech recognition ('transcribe') or X->English translation ('translate')",
-        )
         algorithm_args.add_argument(
             "--language",
             type=str,
@@ -370,21 +309,6 @@ class CommandLine:
             action="version",
             version="%(prog)s {version}".format(version=__version__),
             help="show program's version number and exit",
-        )
-
-        diarization_args = parser.add_argument_group("Diarization options")
-        diarization_args.add_argument(
-            "--hf_token",
-            type=str,
-            default="",
-            help="HuggingFace token which enables to download the diarization models.",
-        )
-
-        diarization_args.add_argument(
-            "--speaker_name",
-            type=str,
-            default="SPEAKER",
-            help="Name to use to identify the speaker (e.g. SPEAKER_00).",
         )
 
         live_args = parser.add_argument_group("Live transcribe options")

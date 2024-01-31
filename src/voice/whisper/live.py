@@ -27,7 +27,6 @@ class Live:
         model_path: str,
         cache_directory: str,
         local_files_only: bool,
-        task: str,
         language: str,
         threads: int,
         device: str,
@@ -41,7 +40,6 @@ class Live:
         self.model_path = model_path
         self.cache_directory = cache_directory
         self.local_files_only = local_files_only
-        self.task = task
         self.language = language
         self.threads = threads
         self.device = device
@@ -139,7 +137,6 @@ class Live:
 
             result = self.transcribe.inference(
                 audio=_buffer.flatten().astype("float32"),
-                task=self.task,
                 language=self.language,
                 verbose=self.verbose,
                 live=True,

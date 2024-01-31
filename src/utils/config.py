@@ -10,16 +10,9 @@ class CLIArgs:
     local_files_only = False
 
     # Configuration options to control generated outputs
-    output_dir = "."
-    output_format = "all"
     pretty_json = False
     print_colors = False
     verbose = False
-
-    # Configuration options for highlighting words
-    highlight_words = False
-    max_line_width = None
-    max_line_count = None
 
     # Computing configuration options
     device = "auto"
@@ -28,7 +21,6 @@ class CLIArgs:
     compute_type = "auto"
 
     # Algorithm execution options
-    task = "transcribe"
     language = None
     temperature = 0
     temperature_increment_on_fallback = 0.2
@@ -57,17 +49,10 @@ class CLIArgs:
     vad_max_speech_duration_s = None
     vad_min_silence_duration_ms = None
 
-    # Diarization options
-    hf_token = ""
-    speaker_name = "SPEAKER"
-
     # Live transcribe options
     live_transcribe = False
     live_volume_threshold = 0.01
     live_input_device = None
-
-    # Add any additional arguments that are specific to your application
-    # ...
 
     @classmethod
     def update_from_args(cls, args):

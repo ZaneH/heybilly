@@ -118,9 +118,9 @@ class Transcribe:
 
     def inference(
         self,
-        audio, task, language, verbose, live, options
+        audio, language, verbose, live, options
     ):
-        result = self._inference(audio, task, language, verbose, live, options)
+        result = self._inference(audio, language, verbose, live, options)
 
         if result and 'text' in result:
             return result['text']
@@ -128,7 +128,6 @@ class Transcribe:
             return None
 
     def _inference(self, audio: Union[str, BinaryIO, np.ndarray],
-                   task: str,
                    language: str,
                    verbose: bool,
                    live: bool,
@@ -139,7 +138,7 @@ class Transcribe:
             segments, info = self.model.transcribe(
                 audio=audio,
                 language=language,
-                task=task,
+                task="transcribe",
                 beam_size=options.beam_size,
                 best_of=options.best_of,
                 patience=options.patience,
