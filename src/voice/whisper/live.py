@@ -152,17 +152,17 @@ class Live:
         except (KeyboardInterrupt, SystemExit):
             pass
         except Exception as e:
-            print(e)
+            logging.error(e)
             raise e
 
     def listen(self):
         show_device = (
             self.input_device if self.input_device is not None else sd.default.device[0]
         )
-        print(
+        logging.info(
             f"\033[32mLive stream device: \033[37m{sd.query_devices(device=show_device)['name']}\033[0m"
         )
-        print("\033[32mListening... \033[37m(Ctrl+C to Quit)\033[0m")
+        logging.info("\033[32mListening... \033[37m(Ctrl+C to Quit)\033[0m")
         with sd.InputStream(
             channels=1,
             callback=self.callback,
@@ -176,5 +176,5 @@ class Live:
                 except KeyboardInterrupt:
                     self.stop()
                 except Exception as e:
-                    print(e)
+                    logging.error(e)
                     raise e

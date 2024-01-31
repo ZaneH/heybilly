@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 from src.utils.commandline import CommandLine
 from src.utils.config import CLIArgs
-from src.voice.whisper.live_transcribe import LiveTranscribe
 
 load_dotenv()
 

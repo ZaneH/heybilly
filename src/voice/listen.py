@@ -30,8 +30,8 @@ class Listen():
         self.live_transcribe = None
 
     def start(self):
-        self.live_transcribe = LiveTranscribe(self.on_transcription_callback)
-        self.live_transcribe.transcribe()
+        self.live_transcribe = LiveTranscribe()
+        self.live_transcribe.transcribe(self.on_transcription_callback)
 
     def on_transcription_callback(self, transcript):
         asyncio.run(self.process_transcript(transcript))

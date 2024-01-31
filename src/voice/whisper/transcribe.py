@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from typing import NamedTuple, Optional, List, Union
 import tqdm
 import sys
@@ -197,5 +198,5 @@ class Transcribe:
 
             return output
         except Exception as e:
-            print("Exception in _inference:", e)
+            logging.error("Exception in _inference:", e)
             raise

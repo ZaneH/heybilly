@@ -50,7 +50,6 @@ class CLIArgs:
     vad_min_silence_duration_ms = None
 
     # Live transcribe options
-    live_transcribe = False
     live_volume_threshold = 0.01
     live_input_device = None
 

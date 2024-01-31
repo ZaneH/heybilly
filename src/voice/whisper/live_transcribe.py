@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import logging
 import os
 import sys
 import warnings
@@ -11,23 +12,6 @@ from src.utils.config import CLIArgs
 from src.voice.whisper.languages import from_language_to_iso_code
 from src.voice.whisper.live import Live
 from src.voice.whisper.transcribe import TranscriptionOptions
-
-
-def get_diarization(audio, diarize_model, verbose):
-    diarization_output = {}
-    for audio_path in audio:
-        if verbose and len(audio) > 1:
-            print(f"\nFile: '{audio_path}' (diarization)")
-
-        start_time = datetime.datetime.now()
-        diarize_segments = diarize_model.run_model(audio_path)
-        diarization_output[audio_path] = diarize_segments
-        if verbose:
-            print(
-                f"Time used for diarization: {datetime.datetime.now() - start_time}")
-
-    diarize_model.unload_model()
-    return diarization_output
 
 
 def get_transcription_options():
@@ -87,7 +71,7 @@ def get_language(language, model_directory, model):
 
 
 class LiveTranscribe:
-    def transcribe(self):
+    def transcribe(self, on_transcription_callback=None):
         live = Live(
             self.model_dir,
             self.cache_directory,
@@ -103,13 +87,10 @@ class LiveTranscribe:
             self.options,
         )
 
-        live.on_transcription_callback = self.on_transcription_callback
-
+        live.on_transcription_callback = on_transcription_callback
         live.inference()
 
-    def __init__(self, on_transcription_callback=None):
-        self.on_transcription_callback = on_transcription_callback
-
+    def __init__(self):
         self.model: str = CLIArgs.model
         self.threads: int = CLIArgs.threads
         self.language: str = CLIArgs.language
@@ -119,27 +100,22 @@ class LiveTranscribe:
         self.model_directory: str = CLIArgs.model_directory
         self.cache_directory: str = CLIArgs.model_dir
         self.device_index: Union[int, List[int]] = CLIArgs.device_index
-        self.live_transcribe: bool = CLIArgs.live_transcribe
         self.local_files_only: bool = CLIArgs.local_files_only
         self.live_volume_threshold: float = CLIArgs.live_volume_threshold
         self.live_input_device: int = CLIArgs.live_input_device
+        self.is_live_transcribing = True
 
         self.language = get_language(
             self.language, self.model_directory, self.model)
         self.options = get_transcription_options()
 
-        if self.live_transcribe and not Live.is_available():
+        if self.is_live_transcribing and not Live.is_available():
             Live.force_not_available_exception()
 
         if self.verbose and not self.language:
-            if self.live_transcribe:
-                print(
-                    "Consider specifying the language using `--language`. It improves significantly prediction in live transcription."
-                )
-            else:
-                print(
-                    "Detecting language using up to the first 30 seconds. Use `--language` to specify the language"
-                )
+            logging.info(
+                "Consider setting the language using `--language`. It significantly improves predictions in live transcription."
+            )
 
         if self.model_directory:
             model_filename = os.path.join(self.model_directory, "model.bin")
