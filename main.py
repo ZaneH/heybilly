@@ -1,23 +1,16 @@
-import argparse
 import asyncio
 import logging
 
 from dotenv import load_dotenv
 
+from src.utils.commandline import CommandLine
 from src.utils.config import CLIArgs
+from src.voice.whisper.live_transcribe import LiveTranscribe
 
 load_dotenv()
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '--verbose', help='Enable verbose logging', action='store_true')
-parser.add_argument(
-    '--discord-tts', help='Play text-to-speech through Discord bot rather than computer audio', action='store_true')
 
-args = parser.parse_args()
-
-
-async def main():
+def main():
     from src.graph.node_map import NODE_MAP
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
@@ -42,11 +35,12 @@ async def main():
     create_queues()
 
     listener = Listen(rabbit_client)
-    await listener.start()
+    listener.start()
 
 
 def load_config():
-    CLIArgs.use_discord_tts = args.discord_tts
+    args = CommandLine().read_command_line()
+    CLIArgs.update_from_args(args)
 
 
 def configure_logging():
@@ -57,7 +51,7 @@ def configure_logging():
     logging.getLogger('httpcore').setLevel(logging.WARNING)
     logging.getLogger('openai').setLevel(logging.WARNING)
 
-    if args.verbose:
+    if CLIArgs.verbose:
         logging.basicConfig(level=logging.DEBUG,
                             format='%(name)s: %(message)s')
 
@@ -70,4 +64,4 @@ if __name__ == "__main__":
     load_config()
     configure_logging()
 
-    asyncio.run(main())
+    main()

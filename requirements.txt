@@ -1,16 +1,20 @@
-pyaudio
-SpeechRecognition
---extra-index-url https://download.pytorch.org/whl/cu116
-torch
-numpy
-git+https://github.com/openai/whisper.git
+# General
 python-dotenv
+tenacity
+pika
+openai
+
+# Node integrations
 python-youtube
 wolframalpha
 requests
 giphy_client
-tenacity
-openai
-pika
 feedparser
 pexels-api
+
+# Voice to text
+numpy
+faster-whisper>=0.10.0
+ctranslate2
+tqdm
+sounddevice

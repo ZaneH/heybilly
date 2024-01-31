@@ -3,3 +3,5 @@ __pycache__/
 discord.log
 *.webm
 *.lprof
+.DS_Store
+.vscode/

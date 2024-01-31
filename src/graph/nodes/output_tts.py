@@ -21,7 +21,7 @@ class OutputTTSNode(ActionNode):
         tts_url = StreamElementsTTS(StreamlabsVoice.Justin).get_url(text)
         self.data['tts_url'] = tts_url
 
-        if CLIArgs.use_discord_tts:
+        if CLIArgs.discord_tts:
             self.send_node_to_queue()
         else:
             player = LocalAudioPlayer()
