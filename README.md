@@ -76,18 +76,14 @@ Move `.env.sample` to `.env` and fill in the necessary values. You'll need the f
 Start the RabbitMQ container:
 
 ```bash
-docker run --rm -d --hostname heybilly-rabbit \
-            --name heybilly-rabbit \
-            -p 15672:15672 -p 5672:5672 \
-            rabbitmq:3-management
+make rabbitmq
 ```
 
-### Activation
-Start HeyBilly:
+### Start HeyBilly
 
 ```bash
-python main.py --help # get help message
-python main.py
+make start # starts HeyBilly
+make help # shows options
 ```
 
 ## Usage
@@ -105,8 +101,6 @@ HeyBilly is designed with developers in mind. Explore the depths of HeyBilly's a
 
 - [Graph Lifecycle](https://github.com/ZaneH/heybilly/wiki/Graph-Lifecycle)
 - [Developer's Guide](https://github.com/ZaneH/heybilly/wiki/Developers-Guide)
-
-Please check out these comprehensive guides and contribute to the evolution of HeyBilly.
 
 ### Built-in Nodes
 

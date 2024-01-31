@@ -2,7 +2,7 @@ from src.graph.action_node import ActionNode, DataTypes
 
 
 class MusicControlNode(ActionNode):
-    create_queue = False
+    create_queue = True
 
     input_data_type = {DataTypes.NONE}
     output_data_type = {DataTypes.NONE}
