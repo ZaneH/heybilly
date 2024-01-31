@@ -52,6 +52,7 @@ Node Types:
 - sfx.play {video_id: String}: [Input: String] Plays short sound effect for 5s.
 - output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using 'text'.
 - volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, '+', or '-'.
+- music.control {action: String}: [Input: String] Play/pause/stop music. Only: 'play', 'pause', or 'stop'.
 - hn.top: [No input; Outputs: Array] Outputs Top 10 Hacker News posts.
 - nyt.top: [No input; Outputs: Array] Outputs Top 10 New York Times posts.
 - done: [Input: Any] Marks workflow completion. 1 per graph.

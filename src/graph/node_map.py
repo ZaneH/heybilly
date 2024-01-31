@@ -13,6 +13,7 @@ from src.graph.nodes.youtube_play import YouTubePlayNode
 from src.graph.nodes.youtube_search import YouTubeSearchNode
 from src.graph.nodes.hn_top import HNTopNode
 from src.graph.nodes.nyt_top import NYTTopNode
+from src.graph.nodes.music_control import MusicControlNode
 
 NODE_MAP = {
     "input.voice": InputVoiceNode,
@@ -29,5 +30,6 @@ NODE_MAP = {
     "hn.top": HNTopNode,
     "nyt.top": NYTTopNode,
     "pexels.search": PexelsSearchNode,
+    "music.control": MusicControlNode,
     "done": DoneNode,
 }
