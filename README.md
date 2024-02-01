@@ -126,7 +126,6 @@ HeyBilly is equipped with a diverse set of built-in nodes, each designed to perf
 
 #### Multimedia Nodes
 - **music.control**: Controls the playback of music.
-- **youtube.play**: Plays a specified YouTube video.
 - **sfx.play**: Plays a short sound effect.
 
 #### Utility Nodes
