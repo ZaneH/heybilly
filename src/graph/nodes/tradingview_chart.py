@@ -8,7 +8,7 @@ class TradingViewChartNode(ActionNode):
 
     async def execute(self, input_data=None):
         symbol = self.data['symbol']
-        interval = self.data['interval']
+        interval = str(self.data.get('interval', '1D')).upper()
         # TODO: Validate the interval (or use a fallback)
 
         chart_url = f"https://www.tradingview.com/chart/?symbol={symbol}&interval={interval}"
