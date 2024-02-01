@@ -33,9 +33,11 @@ class GraphProcessor:
 
     def on_graph_complete(self):
         logging.info("✅ Graph completed.")
+        self.rabbit_client.send_status_update("completed")
 
     async def start(self):
         try:
+            self.rabbit_client.send_status_update("processing")
             await self.graph["1"].process()
         except Exception as e:
             logging.error(f"Error processing graph: {e}")
