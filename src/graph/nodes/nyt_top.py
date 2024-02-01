@@ -1,3 +1,4 @@
+import random
 import feedparser
 
 from src.graph.action_node import ActionNode, NodeIODataType
@@ -11,6 +12,8 @@ class NYTTopNode(ActionNode):
     async def execute(self, input_data=None):
         feed = feedparser.parse(
             'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml')
+
+        random.shuffle(feed['entries'])
         top_10 = feed['entries'][:10]
         results = []
 
