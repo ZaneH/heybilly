@@ -51,7 +51,7 @@ class Listen():
             await self.create_and_process_graph(processed_line)
         except Exception as e:
             logging.error(
-                "Error creating and processing graph. Likely a previously unseen request.")
+                f"Error creating and processing graph. Likely a previously unseen request. {processed_line}")
             logging.error(e)
         finally:
             self.rabbit_client.send_status_update("completed")
@@ -60,6 +60,7 @@ class Listen():
            stop=stop_after_attempt(3),
            before_sleep=before_sleep_log(log, logging.INFO))
     async def create_and_process_graph(self, processed_line):
+        graph = None
         try:
             graph = self.builder.build_graph(processed_line)
             self.rabbit_client.log_ai_response(
@@ -80,9 +81,11 @@ class Listen():
 
         except NodeIOValidationError as e:
             logging.error(e)
+            logging.error(graph)
             raise
         except NodeTypeValidationError as e:
             logging.error(e)
+            logging.error(graph)
             raise
         except ValueError:
             logging.error(f"Graph validation error")

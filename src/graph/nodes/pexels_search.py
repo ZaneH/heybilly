@@ -9,7 +9,7 @@ PEXELS_API_KEY = os.getenv('PEXELS_API_KEY')
 class PexelsSearchNode(ActionNode):
     create_queue = False
 
-    input_data_type = {NodeIODataType.STRING}
+    input_data_type = {NodeIODataType.NONE}
     output_data_type = {NodeIODataType.URL}
 
     async def execute(self, input_data=None):
