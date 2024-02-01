@@ -14,7 +14,13 @@ def main():
     from src.queue.rabbit_client import RabbitClient
     from src.voice.listen import Listen
 
-    rabbit_client = RabbitClient()
+    try:
+        rabbit_client = RabbitClient()
+    except Exception as e:
+        logging.error(
+            "Error connecting to RabbitMQ. Use `make rabbitmq` to start a container.\nExiting...")
+        logging.error(e)
+        return
 
     # Create a queue for the node if needed. Useful for your own integrations.
     def create_queues():
@@ -36,7 +42,12 @@ def main():
 
     create_queues()
 
+    def _on_interrupt():
+        logging.info("Exiting...")
+        rabbit_client.close()
+
     listener = Listen(rabbit_client)
+    listener.on_interrupt_callback = _on_interrupt
     listener.start()
 
 

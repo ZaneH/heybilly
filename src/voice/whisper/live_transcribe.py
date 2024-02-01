@@ -71,7 +71,7 @@ def get_language(language, model_directory, model):
 
 
 class LiveTranscribe:
-    def transcribe(self, on_transcription_callback=None):
+    def transcribe(self, on_transcription_callback=None, on_interrupt_callback=None):
         live = Live(
             self.model_dir,
             self.cache_directory,
@@ -88,6 +88,7 @@ class LiveTranscribe:
         )
 
         live.on_transcription_callback = on_transcription_callback
+        live.on_interrupt_callback = on_interrupt_callback
         live.inference()
 
     def __init__(self):

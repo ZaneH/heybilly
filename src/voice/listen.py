@@ -28,10 +28,12 @@ class Listen():
         self.builder = GraphBuilder()
 
         self.live_transcribe = None
+        self.on_interrupt_callback = None
 
     def start(self):
         self.live_transcribe = LiveTranscribe()
-        self.live_transcribe.transcribe(self.on_transcription_callback)
+        self.live_transcribe.transcribe(
+            self.on_transcription_callback, self.on_interrupt_callback)
 
     def on_transcription_callback(self, transcript):
         asyncio.run(self.process_transcript(transcript))
@@ -56,7 +58,7 @@ class Listen():
             self.rabbit_client.send_status_update("completed")
 
     @retry(wait=wait_exponential(multiplier=1, min=4, max=10),
-           stop=stop_after_attempt(3),
+           stop=stop_after_attempt(2),
            before_sleep=before_sleep_log(log, logging.INFO))
     async def create_and_process_graph(self, processed_line):
         graph = None

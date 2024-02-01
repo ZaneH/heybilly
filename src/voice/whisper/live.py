@@ -59,6 +59,7 @@ class Live:
         self.transcribe = None
 
         self.on_transcription_callback = None
+        self.on_interrupt_callback = None
 
     @staticmethod
     def is_available():
@@ -149,8 +150,6 @@ class Live:
     def inference(self):
         try:
             self.listen()
-        except (KeyboardInterrupt, SystemExit):
-            pass
         except Exception as e:
             logging.error(e)
             raise e
@@ -174,6 +173,9 @@ class Live:
                 try:
                     self.process()
                 except KeyboardInterrupt:
+                    if self.on_interrupt_callback:
+                        self.on_interrupt_callback()
+
                     self.stop()
                 except Exception as e:
                     logging.error(e)
