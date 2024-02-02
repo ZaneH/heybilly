@@ -127,8 +127,8 @@ class ActionNode:
     def to_json(self, with_uuid=False):
         # Convert the node to a JSON-serializable dictionary
         object = {
-            'node_id': self.node_id,
-            'node_type': self.node_type,
+            'id': self.node_id,
+            'type': self.node_type,
         }
 
         inputs = [node.node_id for node in self.inputs]

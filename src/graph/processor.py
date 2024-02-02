@@ -44,6 +44,7 @@ class GraphProcessor:
             logging.error(self.graph)
             raise e
 
+    # TODO: Move this function to personality.py
     @retry_strategy
     def add_personality(self):
         """
