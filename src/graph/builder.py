@@ -41,8 +41,6 @@ Example output:
 
 Node Types:
 - input.voice: [No input; Outputs: String] User input node. Spoken.
-- user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text. Exclusively for making posts.
-- twitter.post {text: String}: [Input: String] Posts to Twitter.
 - discord.post {text: String}: [Input: String] Posts to Discord. Supports some markdown.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
 - giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Queries Giphy, outputs GIF URL. Use full words to get back results.
@@ -65,7 +63,7 @@ Workflow Examples:
 Ensure workflows there is a path from 'input.voice' to 'done' only once in the graph."""
 
 ai_sample_content = None
-'''{
+unused_1 = '''{
   "nodes": {
     "1": {
       "type": "input.voice",
@@ -87,6 +85,9 @@ ai_sample_content = None
     }
   }
 }'''
+unused_2 = """
+- user_text_prompt {prompt: String}: [Input: String; Outputs: String] Requests and outputs user text. Exclusively for making posts.
+- twitter.post {text: String}: [Input: String] Posts to Twitter."""
 
 
 class GraphBuilder:
@@ -111,7 +112,12 @@ class GraphBuilder:
     @staticmethod
     def _create_nodes_from_json(json_str, graph_processor):
         try:
-            data = json.loads(json_str)
+            try:
+                data = json.loads(json_str)
+            except json.JSONDecodeError:
+                # Hack to fix a simple mistake by the AI. There may be more to come.
+                json_str += "}"
+                data = json.loads(json_str)
 
             # Initial node validation (types)
             GraphValidator.validate_nodes(data)
@@ -119,7 +125,7 @@ class GraphBuilder:
 
             # Create nodes using the specific subclass based on the type
             for node_id, node_info in data["nodes"].items():
-                node_type = node_info["type"]
+                node_type = node_info["type"].lower().strip()
                 node_class = NODE_MAP.get(node_type, ActionNode)
                 nodes[node_id] = node_class(node_id, node_type, node_info.get(
                     "inputs", []), node_info.get("outputs", []))
