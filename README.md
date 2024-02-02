@@ -148,10 +148,8 @@ The project is still in its infancy and your contributions would have a big impa
 - [ ] Separate Rabbit data from RAG data
 - [x] Improve speed of voice transcription (VAD, etc.)
 - [x] Play TTS through computer if the user doesn't want to use the Discord bot
-
-#### Low Priority
-
-- [ ] Create tooling for graphs to aid in inspection and fine-tuning
+- [x] Create tooling for graphs to aid in inspection and fine-tuning
+  - [Tool link](https://graph.zaaane.com/)
 
 ### Contribution Process
 1. Fork the Repository
