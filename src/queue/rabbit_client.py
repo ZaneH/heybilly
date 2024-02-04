@@ -1,6 +1,8 @@
 import json
 import pika
-import asyncio
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class RabbitClient:
@@ -12,19 +14,10 @@ class RabbitClient:
                 blocked_connection_timeout=300
             ))
 
-        loop = asyncio.get_event_loop()
-        self._pde_heartbeat = loop.create_task(
-            self.process_data_events_heartbeat())
-
         self.channel = self.connection.channel()
 
     def close(self):
-        self._pde_heartbeat.cancel()
-
-    async def process_data_events_heartbeat(self):
-        while True:
-            self.connection.process_data_events()
-            await asyncio.sleep(60)
+        logger.debug("Closing RabbitMQ connection")
 
     def send_node(self, node_type: str, data: str):
         self.channel.basic_publish(
