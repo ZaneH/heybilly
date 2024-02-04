@@ -14,7 +14,7 @@ Your task is to only modify nodes with `node_uuid` and only edit/attach the
 response appropriate for the output node. Try to keep your answers short and
 concise. Your output for each node will be given directly to the user, you
 must fill in any placeholders and attach the correct data to 'text' by using
-the result/results key from previous nodes. Especially make sure that
+the result(s) key from previous nodes. Especially make sure that
 `output.tts` nodes have all the info a user would expect to hear back. Do
 not add URLs to the `output.tts`.
 
