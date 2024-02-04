@@ -17,17 +17,14 @@ class PexelsSearchNode(ActionNode):
 
         shuffle = self.data.get('shuffle', False)
         query = self.data['query']
+        count = self.data.get('count', 1)
 
         if not query:
             raise Exception("No Pexels search query provided")
 
-        limit = 1
-        if shuffle:
-            limit = 10
-
         client.search(
             query=query,
-            results_per_page=limit
+            results_per_page=count
         )
 
         results = client.get_entries()
@@ -38,8 +35,12 @@ class PexelsSearchNode(ActionNode):
             random.shuffle(results)
 
         self.graph_processor.has_stale_text = True
-        result = results[0].original
-        self.data['result'] = result
+
+        original_urls = []
+        for result in results:
+            original_urls.append(result.compressed)
+
+        self.data['results'] = original_urls
 
         return result
 

@@ -44,15 +44,15 @@ Node Types:
 - discord.post {text: String}: [Input: String] Posts to Discord. Supports some markdown.
 - wolfram.simple {query: String}: [Input: String; Outputs: String] Queries real-time data, outputs result. It's expensive but accurate.
 - giphy.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Queries Giphy, outputs GIF URL. Use full words to get back results.
+- pexels.search {query: String, count: Integer, shuffle: Boolean}: [Input: String, Boolean; Outputs: Array] Search stock photos on Pexels, outputs image URL.
 - youtube.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Searches YouTube, outputs video list.
-- pexels.search {query: String, shuffle: Boolean}: [Input: String, Boolean; Outputs: String] Search stock photos on Pexels, outputs image URL.
 - sfx.play {video_id: String}: [Input: String] Plays short sound effect for 5s.
 - output.tts {text: String}: [Input: String; Outputs: String] Play text to speech using 'text'.
 - volume.set {value: String}: [Input: String] Set/increase/decrease the volume. Only: values 0 thru 10, '+', or '-'.
 - music.control {action: String}: [Input: String, Boolean] Start/resume/pause/stop music. Only: 'start', 'play', 'pause', or 'stop'. Start requires a YouTube search node before it.
 - hn.top: [No input; Outputs: Array] Outputs Top 10 Hacker News posts.
 - nyt.top: [No input; Outputs: Array] Outputs Top 10 New York Times posts.
-- tradingview.chart {symbol: String, interval: String}: [Input: String, String; Outputs: String] Outputs pre-filled TradingView URL for stocks and crypto.
+- tradingview.chart {symbol: String, interval: String, crypto: Boolean}: [Input: String, String, Boolean; Outputs: String] Outputs pre-filled TradingView URL for stocks and crypto.
 - done: [Input: Any] Marks workflow completion. 1 per graph.
 
 Workflow Examples:
@@ -113,11 +113,11 @@ class GraphBuilder:
     def _create_nodes_from_json(json_str, graph_processor):
         try:
             try:
-                data = json.loads(json_str)
+                data = json.loads(json_str, strict=False)
             except json.JSONDecodeError:
                 # Hack to fix a simple mistake by the AI. There may be more to come.
                 json_str += "}"
-                data = json.loads(json_str)
+                data = json.loads(json_str, strict=False)
 
             # Initial node validation (types)
             GraphValidator.validate_nodes(data)
